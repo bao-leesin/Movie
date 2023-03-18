@@ -10,10 +10,7 @@ namespace Movie.Models
     {
         [Required(ErrorMessage = "Ayyo")]
         public string Username { set; get; }
-
         [Required(ErrorMessage = "...")]
         public string Password { set; get; }
-
-
     }
 }

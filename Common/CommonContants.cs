@@ -5,8 +5,13 @@ using System.Web;
 
 namespace Movie.Common
 {
-    public class CommonContants
+    public static class CommonContants
     {
         public static string LOGIN_SESSION = "LOGIN_SESSION";
+        public enum Role
+        {
+            ADMIN = 1,
+            CLIENT = 2
+        };
     }
 }

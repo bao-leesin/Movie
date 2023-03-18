@@ -6,8 +6,6 @@ using System.Web;
 using Movie.Models;
 using Oracle.ManagedDataAccess.Client;
 using System.Data;
-using Movie.Common;
-
 
 
 namespace Movie.DAO
@@ -17,8 +15,7 @@ namespace Movie.DAO
         public UserDao() {
            
         }
-
-        public bool LoginUser(string username, string password)
+        public int LoginUser(string username, string password)
         {
             try
             {
@@ -29,7 +26,7 @@ namespace Movie.DAO
                     var transaction = conn.BeginTransaction();
 
                     OracleCommand cmd = new OracleCommand(
-                        "SELECT USERNAME " +
+                        "SELECT ROLE " +
                         "FROM ACCOUNT " +
                         "WHERE  (USERNAME = :username) AND (PASSWORD = :password)"
                         , conn);
@@ -43,16 +40,17 @@ namespace Movie.DAO
 
                     da.Fill(tab);
                     var rowNumber = tab.Rows.Count;
-
                     transaction.Rollback();
                     conn.Close();
-                    return (rowNumber == 0) ? false : true;
+
+                    return (rowNumber == 0) ? 0 : (int)tab.Rows[0]["ROLE"]; 
+            
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
-                return false;
+                return 0;
             }
 }
     }

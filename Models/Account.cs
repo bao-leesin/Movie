@@ -17,5 +17,7 @@ namespace Movie.Models
 
         [StringLength(45)]
         public string Fullname { set; get; }
+
+        public int? Role { set; get; }
     }
 }
