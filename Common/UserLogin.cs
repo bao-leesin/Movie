@@ -11,11 +11,11 @@ namespace Movie.Common
         public string Username { set; get; }
         public string Password { set; get; }
         public bool isAdmin { set; get; }
-        public UserLogin(string Username, string Password, bool isAdmin)
+        public UserLogin(string Username, string Password)
         {
             this.Username = Username;
             this.Password = Password;
-            this.isAdmin = isAdmin;
+       
         }
     }
 }

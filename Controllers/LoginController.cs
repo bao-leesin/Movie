@@ -33,11 +33,13 @@ namespace Movie.Controllers
                     return View();
 
                 case (int)CommonContants.Role.ADMIN:
-                    Session[CommonContants.LOGIN_SESSION] = new UserLogin(data.Username, data.Password,true);
+                    Session["ROLE"] = CommonContants.Role.ADMIN;
+                    Session[CommonContants.LOGIN_SESSION] = new UserLogin(data.Username, data.Password);
                     return RedirectToAction("Index", "Home", new { area = "Admin" });
 
                 case (int)CommonContants.Role.CLIENT:
-                    Session[CommonContants.LOGIN_SESSION] = new UserLogin(data.Username, data.Password,false);
+                    Session["ROLE"] = CommonContants.Role.CLIENT;
+                    Session[CommonContants.LOGIN_SESSION] = new UserLogin(data.Username, data.Password);
                     return RedirectToAction("Index", "Home");
                  
             }

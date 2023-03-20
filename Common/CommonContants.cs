@@ -8,6 +8,7 @@ namespace Movie.Common
     public static class CommonContants
     {
         public static string LOGIN_SESSION = "LOGIN_SESSION";
+        public static string CREDENTIAL_SESSION = "CREDENTIAL_SESSION";
         public enum Role
         {
             ADMIN = 1,
