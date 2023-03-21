@@ -1,7 +1,6 @@
 ﻿using Movie.Common;
 using Movie.DAO;
 using Movie.Models;
-using Oracle.ManagedDataAccess.Client;
 using System.Configuration;
 using System.Data;
 using System.Net;
@@ -19,10 +18,10 @@ namespace Movie.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(LoginAccount data)
+        public ActionResult Index(LoginAccount respone)
         {
-            var dao = new UserDao();
-            var result = dao.LoginUser(data.Username, data.Password);
+            var dao = new AccountDao();
+            var result = dao.LoginUser(respone.Username, respone.Password);
 
             //Nếu độ dài chuỗi trả về ko null thì kiểm tra role
             switch (result)
@@ -33,13 +32,11 @@ namespace Movie.Controllers
                     return View();
 
                 case (int)CommonContants.Role.ADMIN:
-                    Session["ROLE"] = CommonContants.Role.ADMIN;
-                    Session[CommonContants.LOGIN_SESSION] = new UserLogin(data.Username, data.Password);
+                    Session[CommonContants.LOGIN_SESSION] = new UserLogin(respone.Username, "Admin");
                     return RedirectToAction("Index", "Home", new { area = "Admin" });
 
                 case (int)CommonContants.Role.CLIENT:
-                    Session["ROLE"] = CommonContants.Role.CLIENT;
-                    Session[CommonContants.LOGIN_SESSION] = new UserLogin(data.Username, data.Password);
+                    Session[CommonContants.LOGIN_SESSION] = new UserLogin(respone.Username, "Client");
                     return RedirectToAction("Index", "Home");
                  
             }

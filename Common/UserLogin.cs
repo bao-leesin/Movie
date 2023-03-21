@@ -9,12 +9,13 @@ namespace Movie.Common
     public class UserLogin
     {
         public string Username { set; get; }
-        public string Password { set; get; }
-        public bool isAdmin { set; get; }
-        public UserLogin(string Username, string Password)
+
+        public string Role { set; get; }
+       
+        public UserLogin(string Username, string Role)
         {
             this.Username = Username;
-            this.Password = Password;
+            this.Role = Role;
        
         }
     }
