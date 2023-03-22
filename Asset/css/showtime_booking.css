@@ -1,0 +1,139 @@
+﻿.body {
+    box-sizing: border-box;
+/*    width:100%;*/
+}
+
+
+ul, ol, li {
+    list-style: none;
+}
+
+.container_date--list {
+    display: inline-block;
+    padding: 20px;
+    border-top: 2px solid #2b2b2b;
+}
+
+    .container_date--list li {
+        display: inline-block;
+    }
+
+    .container_date--list .day {
+        border: 2px solid #fdfcf0;
+        border-radius: 5px;
+        color: #717171;
+        cursor: pointer;
+        height: 48px;
+        position: relative;
+        width: 77px;
+    }
+
+        .container_date--list .day > span {
+            color: #717171;
+            font-size: 11px;
+            left: 4px;
+            position: absolute;
+            top: 4px;
+        }
+
+        .container_date--list .day > em {
+            color: #717171;
+            font-size: 11px;
+            font-style: normal;
+            left: 4px;
+            position: absolute;
+            top: 20px;
+        }
+
+        .container_date--list .day > strong {
+            color: #717171;
+            font-size: 32px;
+            font-weight: normal;
+            left: 31px;
+            line-height: 32px;
+            position: absolute;
+            top: 8px;
+        }
+
+.container_city--list {
+            display: inline-block;
+            padding: 20px;
+           
+            border-top: 2px solid #2b2b2b;
+}
+
+    .container_city--list li {
+        display: inline-block;
+    }
+
+        .container_city--list li > span {
+            user-select: none;
+            display: inline-block;
+            padding: 0 10px;
+            cursor: pointer;
+            font-size: 15px;
+            position: relative;
+        }
+
+.container_type--list {
+    display: inline-block;
+    padding: 20px;
+   
+    border-top: 2px solid #2b2b2b;
+}
+
+    .container_type--list li {
+        display: inline-block;
+        margin-right: 3px;
+        border: 2px solid #222;
+        border-radius: 5px;
+        padding: 0 5px 0 5px;
+
+    }
+
+        .container_type--list li > span {
+            height: 29px;
+            line-height: 29px;
+        }
+
+.container_showtime--site {
+    margin-left: 20px;
+    color: #636363;
+    font-family: Verdana, Arial, sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    text-rendering: optimizeSpeed;
+}
+
+.container_showtime--cinema {
+    margin-left: 20px;
+    color: #222;
+    font-family: Verdana, Arial, sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    text-rendering: optimizeSpeed;
+}
+
+.container_showtime--list {
+    display: inline-block;
+    padding: 20px;
+    border-top: 2px solid #2b2b2b;
+}
+
+    .container_showtime--list li {
+        display: inline-block;
+        border: 1px solid #cbcabe;
+        color: #222;
+        text-align: center;
+        margin-top: 3px;
+        padding: 5px 10px;
+        float: left;
+        margin-right: 3px;
+    }
+
+        .container_showtime--list li > a {
+            color: black;
+            text-decoration: none;
+            touch-action: manipulation;
+        }
+       

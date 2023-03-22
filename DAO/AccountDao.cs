@@ -28,7 +28,7 @@ namespace Movie.DAO
                     OracleCommand cmd = new OracleCommand(
                         "SELECT ROLE_ID " +
                         "FROM account " +
-                        "WHERE  (username = :paramUsername) AND (password = :paramPassword)"
+                        "WHERE (username = :paramUsername) AND (password = :paramPassword)"
                         , conn);
 
                     cmd.BindByName = true;
@@ -44,7 +44,7 @@ namespace Movie.DAO
                     transaction.Rollback();
                     conn.Close();
 
-                    return (rowNumber == 0) ? 0 : (int)tab.Rows[0]["ROLE_ID"]; 
+                    return (rowNumber == 0) ? 0 : int.Parse(tab.Rows[0]["ROLE_ID"].ToString()); 
                 }
             }
             catch (Exception e)

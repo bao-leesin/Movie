@@ -1,0 +1,35 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ShowtimeBooking</title>
+    <link rel="stylesheet" href="~/Asset/css/showtime_booking.css" />
+</head>
+<body>
+
+    <div class="container">
+        <div class="container_date">
+            @RenderPage("Shared/container_date.cshtml")
+        </div>
+
+        <div class="container_city">
+            @RenderPage("Shared/container_city.cshtml")
+        </div>
+
+        <div class="container_type">
+            @RenderPage("Shared/container_type.cshtml")
+        </div>
+
+        <div class="container_showtime">
+           @RenderPage("Shared/container_showtime.cshtml")
+        </div>
+    </div>
+
+</body>
+</html>

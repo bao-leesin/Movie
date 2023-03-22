@@ -31,6 +31,12 @@ namespace Movie.Controllers
             return View();
         }
 
+        public ActionResult ShowtimeBooking()
+        {
+
+            return View();
+        }
+
         
     }
 }

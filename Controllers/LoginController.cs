@@ -23,7 +23,7 @@ namespace Movie.Controllers
             var dao = new AccountDao();
             var result = dao.LoginUser(respone.Username, respone.Password);
 
-            //Nếu độ dài chuỗi trả về ko null thì kiểm tra role
+          
             switch (result)
             {
                 //Tất cả các trường hợp như không có tài khoản hoặc lỗi DB đều trả về case 0
@@ -40,7 +40,7 @@ namespace Movie.Controllers
                     return RedirectToAction("Index", "Home");
                  
             }
-            return View();
+          return RedirectToAction("Index", "Home", new { area = "Admin" });
         }
 
         public ActionResult Logout() {
