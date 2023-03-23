@@ -1,4 +1,5 @@
-﻿using Movie.Models;
+﻿using Movie.DAO;
+using Movie.Models;
 using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using System.Web.Mvc;
 
 namespace Movie.Controllers
 {
-    public class HomeController : BaseController
+    public class HomeController : Controller
     {
         public ActionResult Index()
         {
@@ -33,6 +34,8 @@ namespace Movie.Controllers
 
         public ActionResult ShowtimeBooking()
         {
+            var dao = new ShowtimeDao();
+            var showtimeData = dao.getShowtimeByDay("");
 
             return View();
         }
