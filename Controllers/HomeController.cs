@@ -13,30 +13,24 @@ namespace Movie.Controllers
 {
     public class HomeController : Controller
     {
+
+        
+
         public ActionResult Index()
         {
-        return View();
+            var dao = new MovieDao();
+            var films = dao.getAllMovie();
+            return View(films);
         }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
-
-        public ActionResult ShowtimeBooking()
+ 
+        public ActionResult bookShowTimeByIdFilm(int? idFilm)
         {
             var dao = new ShowtimeDao();
-            var showtimeData = dao.getShowtimeByDay("");
-
+            var showtimes = dao.getBookingShowtimeById(idFilm);
+            return View(showtimes);
+        }
+        public ActionResult BookShowTimeByDay()
+        {
             return View();
         }
 

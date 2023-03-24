@@ -1,18 +1,10 @@
-﻿<ul class="container_city--list">
-    <li>
-        <span> Hồ Chí Minh </span>
-    </li>
-    <li>
-        <span> Hồ Chí Minh </span>
-    </li>
-    <li>
-        <span> Hồ Chí Minh </span>
-    </li>
-    <li>
-        <span> Hồ Chí Minh </span>
-    </li>
-    <li>
-        <span> Hồ Chí Minh </span>
-    </li>
+﻿@model IEnumerable<Movie.Models.BookingShowtime>
+
+<ul class="container_city--list">
+    @foreach (var item in Model)
+<li>
+    <span> @item.city </span>
+</li>
+
 </ul>
 

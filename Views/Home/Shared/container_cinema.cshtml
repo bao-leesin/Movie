@@ -1,0 +1,47 @@
+﻿@model IEnumerable<Movie.Models.BookingShowtime>
+@{
+    string city = "";
+}
+
+
+@*@foreach (var movieTheater in (from item in Model
+                              group item by item.movieTheaterName into newGroup
+
+                              select newGroup))
+{
+    <div class="container_showtime--site">
+        <h3></h3>
+    </div>
+
+    @foreach (var room in (from item in Model
+                          group item by item.movieTheaterName into newGroup
+                          where
+                          orderby newGroup.Key
+                          select newGroup))
+    {
+
+        <div class="container_showtime--cinema">
+            <h4>Rạp STARIUM</h4>
+        </div>
+
+        <ul class="container_showtime--list">
+            @foreach (var item in (from item in Model
+                                  group item by item.movieTheaterName into newGroup
+                                  orderby newGroup.Key
+                                  select newGroup))
+            {
+                <li>
+                    <a href="#">
+                        <span>@item.startTime.ToString("h tt")</span>
+                    </a>
+                </li>
+            }
+        </ul>
+    }
+}
+}*@
+
+
+
+
+@*@RenderPage("shared_2/_layout_movie_theater.cshtml")*@

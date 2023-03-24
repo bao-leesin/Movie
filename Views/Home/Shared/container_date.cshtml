@@ -1,76 +1,17 @@
 ﻿
-<ul class="container_date--list">
+@model IEnumerable<Movie.Models.BookingShowtime>
 
+<ul class="container_date--list">
+    @foreach(var item in Model)
+    { 
     <li>
         <div class="day">
-            <span>03</span>
+            <span>@item.startTime</span>
             <em>Wed</em>
             <strong>22</strong>
         </div>
     </li>
-    <li>
-        <div class="day">
-            <span>03</span>
-            <em>Wed</em>
-            <strong>22</strong>
-        </div>
-    </li>
-    <li>
-        <div class="day">
-            <span>03</span>
-            <em>Wed</em>
-            <strong>22</strong>
-        </div>
-    </li>
-    <li>
-        <div class="day">
-            <span>03</span>
-            <em>Wed</em>
-            <strong>22</strong>
-        </div>
-    </li>
-    <li>
-        <div class="day">
-            <span>03</span>
-            <em>Wed</em>
-            <strong>22</strong>
-        </div>
-    </li>
-    <li>
-        <div class="day">
-            <span>03</span>
-            <em>Wed</em>
-            <strong>22</strong>
-        </div>
-    </li>
-    <li>
-        <div class="day">
-            <span>03</span>
-            <em>Wed</em>
-            <strong>22</strong>
-        </div>
-    </li>
-    <li>
-        <div class="day">
-            <span>03</span>
-            <em>Wed</em>
-            <strong>22</strong>
-        </div>
-    </li>
-    <li>
-        <div class="day">
-            <span>03</span>
-            <em>Wed</em>
-            <strong>22</strong>
-        </div>
-    </li>
-    <li>
-        <div class="day">
-            <span>03</span>
-            <em>Wed</em>
-            <strong>22</strong>
-        </div>
-    </li>
+    }
 </ul>
 
 

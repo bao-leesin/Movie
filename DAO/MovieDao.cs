@@ -1,6 +1,8 @@
 ﻿using Movie.Models;
+using Oracle.DataAccess.Client;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Web;
@@ -9,6 +11,12 @@ namespace Movie.DAO
 {
     public class MovieDao
     {
+        OracleConnection conn = null;
+
+        public MovieDao()
+        {
+            conn = new OracleConnection(ConfigurationManager.ConnectionStrings["LOSDB"].ToString());
+        }
         public List<Film> getAllMovie()
         {
             List<Film> movies = new List<Film>();
@@ -18,22 +26,25 @@ namespace Movie.DAO
                 var transaction = conn.BeginTransaction();
 
                 OracleCommand cmd = new OracleCommand(
-                    "SELECT * FROM movie WHERE id_movie IN (SELECT id_movie FROM show_time WHERE start_time > :timeParam))"
-                    , conn);
-
+                  "SELECT * FROM movie WHERE id_movie IN " +
+                  "( SELECT ID_MOVIE FROM show_time  WHERE START_TIME > SYSDATE)"
+                   , conn);
+     
                 cmd.BindByName = true;
+                string thisTime = DateTime.Now.ToString("MM/dd/yyyy H:mm");
               
-                cmd.Parameters.Add("timeParam", DateTime.Now);
 
                 OracleDataAdapter da = new OracleDataAdapter(cmd);
                 DataTable tab = new DataTable();
                 da.Fill(tab);
 
                 movies = (from DataRow row in tab.Rows
-                             select new Film()
-                             {
-                                
-                             }
+                          select new Film()
+                          {
+                              idFilm = Convert.ToInt32(row["id_movie"]),
+                              nameFilm = Convert.ToString(row["name_movie"]),
+                              duration = Convert.ToInt32(row["duration"])
+                          }
                             ).ToList();
 
                 transaction.Rollback();

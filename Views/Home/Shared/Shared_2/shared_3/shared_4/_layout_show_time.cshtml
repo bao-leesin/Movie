@@ -1,0 +1,12 @@
+﻿
+<ul class="container_showtime--list">
+    @foreach (var item in Model)
+    {
+        <li>
+            <a href="#">
+                <span>@item.startTime.ToString("h tt")</span>
+            </a>
+        </li>
+    }
+
+</ul>

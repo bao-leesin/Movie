@@ -259,7 +259,11 @@
     <Content Include="Views\Home\Shared\container_city.cshtml" />
     <Content Include="Views\Home\Shared\container_date.cshtml" />
     <Content Include="Views\Home\Shared\container_type.cshtml" />
-    <Content Include="Views\Home\Shared\container_showtime.cshtml" />
+    <Content Include="Views\Home\Shared\container_cinema.cshtml" />
+    <Content Include="Views\Home\bookShowTimeByIdFilm.cshtml" />
+    <Content Include="Views\Home\Shared\Shared_2\_layout_movie_theater.cshtml" />
+    <Content Include="Views\Home\Shared\Shared_2\_layout_room.cshtml" />
+    <Content Include="Views\Home\Shared\Shared_2\_layout_show_time.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

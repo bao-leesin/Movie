@@ -8,12 +8,11 @@ namespace Movie.Models
 {
     public class Showtime
     {
-        
         public int id { set; get; }
-        public int idMovie { set; get; }
-        public int idRoom { set; get; }
+        public int movieId { set; get; }
+        public int roomId { set; get; }
         public string type { set; get; }
-        public string startTime { set; get; }
+        public DateTime startTime { set; get; }
         public string showDay { set; get; }
 
         //public Showtime(int id,int id_movie, int id_room, string type, DateTime start_time)
@@ -29,9 +28,9 @@ namespace Movie.Models
 
     public class BookingShowtime : Showtime {
         public string city { set; get; }
-        public string nameMovieTheater { set; get; }
-        public string nameRoom { set; get; }
-        public string nameMovie { set; get; }
+        public string movieTheaterName { set; get; }
+        public string roomName { set; get; }
+        public string movieName { set; get; }
 
     }
 }

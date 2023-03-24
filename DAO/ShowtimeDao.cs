@@ -56,29 +56,77 @@ namespace Movie.DAO
 
         public ShowtimeDao()
         {
-            OracleConnection conn = new OracleConnection(ConfigurationManager.ConnectionStrings["LOSDB"].ToString());
+             conn = new OracleConnection(ConfigurationManager.ConnectionStrings["LOSDB"].ToString());
         }
 
-        public List<BookingShowtime> getShowtimeByDay(DateTime showDay)
+        public List<BookingShowtime> getBookingShowtimeById(int? idMovie)
         {
             List<BookingShowtime> showtimes = new List<BookingShowtime>();
             try
             {
-      
+                conn.Open();
+                var transaction = conn.BeginTransaction();
+
+                OracleCommand cmd = new OracleCommand(
+                    "SELECT  A.ID_SHOW_TIME, A.type, to_char(A.start_time, 'HH24:MI:SS') as start_time, " +
+                    "B.name_room, C.city, C.name_movie_theater " +
+                    "FROM show_time A JOIN room B ON A.ID_ROOM = B.id_room " +
+                    "JOIN movie_theater C ON B.id_movie_theater = C.id_movie_theater " +
+                    "WHERE TRUNC(start_time) = TRUNC(sysdate) and id_movie = :idMovieParam"
+                    , conn);
+
+                cmd.BindByName = true;
+                cmd.Parameters.Add("idMovieParam", idMovie);
+
+                OracleDataAdapter da = new OracleDataAdapter(cmd);
+                DataTable tab = new DataTable();
+                da.Fill(tab);
+
+                showtimes = (from DataRow row in tab.Rows
+                             select new BookingShowtime()
+                             {
+                                 id = Convert.ToInt32(row["id_show_time"]),
+                                 type = Convert.ToString(row["type"]),
+                                 movieTheaterName = Convert.ToString(row["name_movie_theater"]),
+                                 roomName = Convert.ToString(row["name_room"]),
+                                 city = Convert.ToString(row["city"]),
+                                 startTime = Convert.ToDateTime(row["start_time"]),
+                             }
+                            ).ToList();
+
+                transaction.Rollback();
+                conn.Close();
+
+                return showtimes;
+            }
+
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                return showtimes;
+            }
+        }
+
+
+        public List<BookingShowtime> getShowtimeByDay(string showDay)
+        {
+            List<BookingShowtime> showtimes = new List<BookingShowtime>();
+            try
+            {
                     conn.Open();
                     var transaction = conn.BeginTransaction();
 
                     OracleCommand cmd = new OracleCommand(
-                        "SELECT  A.ID_SHOW_TIME, A.type, to_char(A.start_time, 'HH24:MI:SS'), " +
+                        "SELECT  A.ID_SHOW_TIME, A.type, to_char(A.start_time, 'HH24:MI:SS') as start_time, " +
                         "B.name_room, C.city, C.name_movie_theater " +
                         "FROM show_time A JOIN room B ON A.ID_ROOM = B.id_room " +
                         "JOIN movie_theater C ON B.id_movie_theater = C.id_movie_theater " +
-                        "WHERE TRUNC(start_time) = TO_DATE(:paramShowDay, 'DD/MM/YYYY')"
+                        "WHERE TRUNC(start_time) = TO_DATE(:paramShowDay, 'dd/MM/yyyy')"
                         , conn);
 
                     cmd.BindByName = true;
-                    char[] convertedShowDay = showDay.ToString().ToCharArray();
-                    cmd.Parameters.Add("paramShowday", convertedShowDay);
+                    char[] convertedShowDay = showDay.ToCharArray();
+                    cmd.Parameters.Add("paramShowDay", convertedShowDay);
 
                     OracleDataAdapter da = new OracleDataAdapter(cmd);
                     DataTable tab = new DataTable();
@@ -87,13 +135,12 @@ namespace Movie.DAO
                     showtimes = (from DataRow row in tab.Rows
                                  select new BookingShowtime()
                                  {
-                                    id = Convert.ToInt32(row["id"]),
+                                    id = Convert.ToInt32(row["id_show_time"]),
                                     type = Convert.ToString(row["type"]),
-                                    nameMovieTheater = Convert.ToString(row["name_movie_theater"]),
-                                    nameRoom = Convert.ToString(row["name_room"]),
+                                    movieTheaterName = Convert.ToString(row["name_movie_theater"]),
+                                    roomName = Convert.ToString(row["name_room"]),
                                     city = Convert.ToString(row["city"]),
-                                    startTime = Convert.ToString(row["start_time"]),
-
+                                    startTime = Convert.ToDateTime(row["start_time"]),
                                  }
                                 ).ToList();
 
@@ -110,6 +157,39 @@ namespace Movie.DAO
             }
         }
 
+        public List<City> GetCitiesByIdFilm(int id)
+        {
+            List<City> cities = new List<City>();
+
+            try
+            {
+                conn.Open();
+                var transaction = conn.BeginTransaction();
+
+                OracleCommand cmd = new OracleCommand(
+                    "SELECT  C.city FROM show_time A JOIN room B ON A.ID_ROOM = B.id_room " +
+                    "JOIN movie_theater C ON B.id_movie_theater = C.id_movie_theater " +
+                    "WHERE TRUNC(start_time) = TO_DATE('30/04/2023','DD/MM/YYYY') and id_movie = :idMovieParam group by city "
+                    ,conn);
+
+                OracleDataAdapter da = new OracleDataAdapter(cmd);
+                DataTable tab = new DataTable();
+                da.Fill(tab);
+
+                cities = (from DataRow row in tab.Rows
+                          select new City()
+                          {
+                              NameCity = Convert.ToString(row["city"]),
+
+                          }).ToList();
+
+                return cities;
+            }
+            catch (Exception e) {
+                Console.WriteLine(e.ToString());
+                return cities;
+            }
+        }
          
     }
 }
