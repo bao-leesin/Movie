@@ -20,26 +20,32 @@ namespace Movie.Controllers
             return View(films);
         }
  
-        public ActionResult bookShowTimeByIdFilm(int? idFilm, string cityName, DateTime showDayInput, string type)
+        public ActionResult bookShowTimeByIdFilm(int? idFilm)
         {
             var dao = new ShowtimeDao();
 
-            ViewBag.cities = dao.GetCitiesByIdMovie(idFilm);
-            ViewBag.showDays = dao.getShowDaysByIdMovie(idFilm);
-            ViewBag.types = dao.getTypeCinemaByIdMovie(idFilm);
+            var cities = ViewBag.cities = dao.getCitiesByIdMovie(idFilm);
+            var showDays = ViewBag.showDays = dao.getShowDaysByIdMovie(idFilm);
+            var types = ViewBag.types = dao.getTypeCinemaByIdMovie(idFilm);
 
-            //if(showDayInput == null) { showDayInput = ViewBag.showDays }
-            //if(cityName == null) { cityName = ""}
+            string cityName = cities.FirstOrDefault();
+            DateTime showDayInput = showDays.FirstOrDefault();
+            string type = types.FirstOrDefault();
 
             ViewData["show time"] = dao.getBookingShowtime(idFilm,  cityName,  showDayInput,  type);
              
             return View();
+        }
+
+        public void filterShowTime(int? idFilm, string cityName, DateTime showDayInput, string type)
+        {
+            ViewData["show time"] = new ShowtimeDao().getBookingShowtime(idFilm, cityName, showDayInput, type);
+            Redirect("bookShowTimeByIdFilm");
         }
         public ActionResult BookShowTimeByDay()
         {
             return View();
         }
 
-        
     }
 }

@@ -2,7 +2,7 @@
     @foreach (var item in ViewBag.showDays)
     {
         <li>
-            <div class="day">
+            <div class="day" id="@item.Id" onclick="">
                 <span>@item.startTime.toString("MM")</span>
                 <em>@item.startTime.toString("ddd")</em>
                 <strong>@item.startTime.toString("dd")</strong>

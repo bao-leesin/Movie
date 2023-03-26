@@ -115,7 +115,7 @@ namespace Movie.DAO
 
 
 
-        public List<BookingShowtime> GetCitiesByIdMovie(int? idMovie)
+        public List<BookingShowtime> getCitiesByIdMovie(int? idMovie)
         {
             List<BookingShowtime> cities = new List<BookingShowtime>();
 

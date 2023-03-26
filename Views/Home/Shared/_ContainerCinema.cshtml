@@ -18,7 +18,7 @@
         @foreach (var item in showtimes.Where(show => show.movieTheaterName == name.Key))
         {
             <li>
-                <a href="#">
+                <a href="@Url.Action("bookChairs","Home", new {idShowTime = item.Id})">
                     <span>@item.startTime.ToString("h tt")</span>
                 </a>
             </li>

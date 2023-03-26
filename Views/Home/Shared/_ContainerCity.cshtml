@@ -1,9 +1,10 @@
 ﻿
 <ul class="container_city--list">
-    @foreach (var item in ViewBag.cities?)
+    @foreach (var item in ViewBag.cities)
     {
-        <li>
+        <li onclick="">
             <span> @item.CityName </span>
         </li>
     }
 </ul>
+

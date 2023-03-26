@@ -14,7 +14,6 @@ ul, ol, li {
 .container_date--list {
     display: inline-block;
     padding: 20px;
-    
 }
 
     .container_date--list li {
@@ -149,4 +148,12 @@ ul, ol, li {
             text-decoration: none;
             touch-action: manipulation;
         }
-       
+
+li.current {
+    background: #222;
+    border-radius: 5px;
+}
+
+    li.current > span {
+        color: #fff !important;
+    }

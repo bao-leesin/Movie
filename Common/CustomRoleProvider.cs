@@ -50,7 +50,7 @@ namespace Movie.Common
             else
                 return new String[] { };
 
-            throw new NotImplementedException();
+            
         }
 
         public override string[] GetUsersInRole(string roleName)

@@ -18,12 +18,11 @@ namespace Movie.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(LoginAccount respone)
+        public ActionResult Index(LoginAccount request)
         {
             var dao = new AccountDao();
-            var result = dao.LoginUser(respone.Username, respone.Password);
+            var result = dao.LoginUser(request.Username, request.Password);
 
-          
             switch (result)
             {
                 //Tất cả các trường hợp như không có tài khoản hoặc lỗi DB đều trả về case 0
@@ -32,11 +31,11 @@ namespace Movie.Controllers
                     return View();
 
                 case (int)CommonContants.Role.ADMIN:
-                    Session[CommonContants.LOGIN_SESSION] = new UserLogin(respone.Username, "Admin");
+                    Session[CommonContants.LOGIN_SESSION] = new UserLogin(request.Username, "Admin");
                     return RedirectToAction("Index", "Home", new { area = "Admin" });
 
                 case (int)CommonContants.Role.CLIENT:
-                    Session[CommonContants.LOGIN_SESSION] = new UserLogin(respone.Username, "Client");
+                    Session[CommonContants.LOGIN_SESSION] = new UserLogin(request.Username, "Client");
                     return RedirectToAction("Index", "Home");
                  
             }
