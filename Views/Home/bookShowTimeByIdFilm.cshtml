@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Movie.Models.BookingShowtime>
+﻿@*@model IEnumerable<Movie.Models.BookingShowtime>*@
+
 @{
     Layout = null;
 }
@@ -15,19 +16,19 @@
 
     <div class="container">
         <div class="container_date">
-            @RenderPage("Shared/container_date.cshtml",Model)
+            @RenderPage("Shared/_ContainerDay.cshtml")
         </div>
 
         <div class="container_city">
-            @RenderPage("Shared/container_city.cshtml",Model)
+            @RenderPage("Shared/_ContainerCity.cshtml")
         </div>
 
         <div class="container_type">
-            @RenderPage("Shared/container_type.cshtml",Model)
+            @RenderPage("Shared/_ContainerType.cshtml")
         </div>
 
-        <div class="container_showtime">
-            @RenderPage("Shared/container_cinema.cshtml",Model)
+        <div class="container_cinema">
+            @RenderPage("Shared/_ContainerCinema.cshtml")
         </div>
     </div>
 

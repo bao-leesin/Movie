@@ -8,10 +8,13 @@ ul, ol, li {
     list-style: none;
 }
 
+.container_date {
+    border-top: 2px solid #2b2b2b;
+}
 .container_date--list {
     display: inline-block;
     padding: 20px;
-    border-top: 2px solid #2b2b2b;
+    
 }
 
     .container_date--list li {
@@ -55,6 +58,9 @@ ul, ol, li {
             top: 8px;
         }
 
+.container_city {
+    border-top: 2px solid #2b2b2b;
+}
 .container_city--list {
             display: inline-block;
             padding: 20px;
@@ -74,6 +80,10 @@ ul, ol, li {
             font-size: 15px;
             position: relative;
         }
+
+.container_type {
+    border-top: 2px solid #2b2b2b;
+}
 
 .container_type--list {
     display: inline-block;
@@ -96,7 +106,10 @@ ul, ol, li {
             line-height: 29px;
         }
 
-.container_showtime--site {
+.container_cinema {
+    border-top: 2px solid #2b2b2b;
+}
+.container_cinema--site {
     margin-left: 20px;
     color: #636363;
     font-family: Verdana, Arial, sans-serif;
@@ -105,22 +118,22 @@ ul, ol, li {
     text-rendering: optimizeSpeed;
 }
 
-.container_showtime--cinema {
+/*.container_showtime--room {
     margin-left: 20px;
     color: #222;
     font-family: Verdana, Arial, sans-serif;
     font-size: 14px;
     font-style: normal;
     text-rendering: optimizeSpeed;
-}
+}*/
 
-.container_showtime--list {
+.container_cinema--list {
     display: inline-block;
     padding: 20px;
     border-top: 2px solid #2b2b2b;
 }
 
-    .container_showtime--list li {
+    .container_cinema--list li {
         display: inline-block;
         border: 1px solid #cbcabe;
         color: #222;
@@ -131,7 +144,7 @@ ul, ol, li {
         margin-right: 3px;
     }
 
-        .container_showtime--list li > a {
+        .container_cinema--list li > a {
             color: black;
             text-decoration: none;
             touch-action: manipulation;

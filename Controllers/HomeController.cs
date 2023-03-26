@@ -13,9 +13,6 @@ namespace Movie.Controllers
 {
     public class HomeController : Controller
     {
-
-        
-
         public ActionResult Index()
         {
             var dao = new MovieDao();
@@ -23,11 +20,20 @@ namespace Movie.Controllers
             return View(films);
         }
  
-        public ActionResult bookShowTimeByIdFilm(int? idFilm)
+        public ActionResult bookShowTimeByIdFilm(int? idFilm, string cityName, DateTime showDayInput, string type)
         {
             var dao = new ShowtimeDao();
-            var showtimes = dao.getBookingShowtimeById(idFilm);
-            return View(showtimes);
+
+            ViewBag.cities = dao.GetCitiesByIdMovie(idFilm);
+            ViewBag.showDays = dao.getShowDaysByIdMovie(idFilm);
+            ViewBag.types = dao.getTypeCinemaByIdMovie(idFilm);
+
+            //if(showDayInput == null) { showDayInput = ViewBag.showDays }
+            //if(cityName == null) { cityName = ""}
+
+            ViewData["show time"] = dao.getBookingShowtime(idFilm,  cityName,  showDayInput,  type);
+             
+            return View();
         }
         public ActionResult BookShowTimeByDay()
         {

@@ -1,0 +1,29 @@
+﻿@{
+    var showtimes = ViewData["show time"] as IEnumerable<Movie.Models.BookingShowtime>;
+
+    var groupMovieTheaterName =
+    from showtime in showtimes
+    group showtime by showtime.movieTheaterName into newGroup
+    orderby newGroup.Key
+    select newGroup;
+}
+
+@foreach (var name in groupMovieTheaterName)
+{
+    <div class="container_showtime--movie_theater">
+        <h3>@name.Key</h3>
+    </div>
+
+    <ul class="container_showtime--list">
+        @foreach (var item in showtimes.Where(show => show.movieTheaterName == name.Key))
+        {
+            <li>
+                <a href="#">
+                    <span>@item.startTime.ToString("h tt")</span>
+                </a>
+            </li>
+        }
+
+    </ul>
+}
+

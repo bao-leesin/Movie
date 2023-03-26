@@ -1,0 +1,12 @@
+﻿<ul class="container_date--list">
+    @foreach (var item in ViewBag.showDays)
+    {
+        <li>
+            <div class="day">
+                <span>@item.startTime.toString("MM")</span>
+                <em>@item.startTime.toString("ddd")</em>
+                <strong>@item.startTime.toString("dd")</strong>
+            </div>
+        </li>
+    }
+</ul>
