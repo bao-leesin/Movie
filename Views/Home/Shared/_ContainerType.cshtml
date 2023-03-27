@@ -1,8 +1,11 @@
-﻿<ul class="container_type--list">
+﻿@{ 
+    var types = ViewData["type"] as IEnumerable<Movie.Models.BookingShowtime>;
+}
+<ul class="container_type--list">
     @foreach (var item in ViewBag.types)
     {
         <li onclick="">
-            <span> @item.type </span>
+            <span> @item.Type </span>
         </li>
     }
 </ul>

@@ -1,11 +1,15 @@
-﻿<ul class="container_date--list">
-    @foreach (var item in ViewBag.showDays)
+﻿@{ 
+    var showDays = ViewData["showDays"] as IEnumerable<Movie.Models.BookingShowtime>;
+}
+
+<ul class="container_date--list">
+    @foreach (var item in showDays)
     {
         <li>
             <div class="day" id="@item.Id" onclick="">
-                <span>@item.startTime.toString("MM")</span>
-                <em>@item.startTime.toString("ddd")</em>
-                <strong>@item.startTime.toString("dd")</strong>
+                <span>@item.startTime.ToString("MM")</span>
+                <em>@item.startTime.ToString("ddd")</em>
+                <strong>@item.startTime.ToString("dd")</strong>
             </div>
         </li>
     }

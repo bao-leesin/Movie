@@ -10,20 +10,23 @@
 
 @foreach (var name in groupMovieTheaterName)
 {
-    <div class="container_showtime--movie_theater">
-        <h3>@name.Key</h3>
+
+    <div class="container_cinema--list ">
+        <div class="container_cinema--movie_theater">
+            <h3>@name.Key</h3>
+        </div>
+
+        <ul class="container_cinema--showtimes">
+            @foreach (var item in showtimes.Where(show => show.movieTheaterName == name.Key))
+            {
+                <li>
+                    <a href="@Url.Action("bookChairs","Home", new {idShowTime = item.Id})">
+                        <span>@item.startTime.ToString("h tt")</span>
+                    </a>
+                </li>
+            }
+
+        </ul>
     </div>
-
-    <ul class="container_showtime--list">
-        @foreach (var item in showtimes.Where(show => show.movieTheaterName == name.Key))
-        {
-            <li>
-                <a href="@Url.Action("bookChairs","Home", new {idShowTime = item.Id})">
-                    <span>@item.startTime.ToString("h tt")</span>
-                </a>
-            </li>
-        }
-
-    </ul>
 }
 

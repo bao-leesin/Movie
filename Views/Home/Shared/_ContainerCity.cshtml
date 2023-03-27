@@ -1,9 +1,13 @@
-﻿
+﻿@{ 
+    var cities = ViewData["cities"] as IEnumerable<Movie.Models.BookingShowtime>;
+}
+
+
 <ul class="container_city--list">
-    @foreach (var item in ViewBag.cities)
+    @foreach (var item in cities)
     {
         <li onclick="">
-            <span> @item.CityName </span>
+            <span> @item.City </span>
         </li>
     }
 </ul>

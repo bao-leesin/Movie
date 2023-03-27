@@ -79,10 +79,9 @@ namespace Movie.DAO
                 var transaction = conn.BeginTransaction();
 
                 OracleCommand cmd = new OracleCommand(
-                    "SELECT start_time " +
+                    "SELECT distinct Trunc(start_time) as start_time " +
                     "FROM show_time " +
-                    "WHERE id_movie = :idMovieParam " +
-                    "GROUP BY start_time ORDER BY start_time "
+                    "WHERE id_movie = :idMovieParam AND start_time > sysdate ORDER BY 1"
                     , conn);
 
                 cmd.BindByName = true;
@@ -125,11 +124,10 @@ namespace Movie.DAO
                 var transaction = conn.BeginTransaction();
 
                 OracleCommand cmd = new OracleCommand(
-                    "SELECT city " +
+                    "SELECT distinct city " +
                     "FROM show_time A JOIN room B ON A.ID_ROOM = B.id_room " +
                     "JOIN movie_theater C ON B.id_movie_theater = C.id_movie_theater " +
-                    "WHERE TRUNC(start_time) = TO_DATE('30/04/2023','DD/MM/YYYY') and id_movie = :idMovieParam " +
-                    "GROUP BY city ORDER BY city "
+                    "WHERE id_movie = :idMovieParam ORDER BY 1"
                     , conn);
 
                 cmd.BindByName = true;
@@ -165,10 +163,7 @@ namespace Movie.DAO
                 var transaction = conn.BeginTransaction();
 
                 OracleCommand cmd = new OracleCommand(
-                    "SELECT type " +
-                    "FROM show_time " +
-                    "WHERE id_movie = :idMovieParam " +
-                    "GROUP BY type ORDER BY type"
+                    "SELECT distinct type FROM show_time WHERE id_movie = :idMovieParam AND start_time > sysdate ORDER BY 1"
                     , conn);
 
                 cmd.BindByName = true;
@@ -196,7 +191,7 @@ namespace Movie.DAO
         }
 
 
-        public List<BookingShowtime> getBookingShowtime(int? idMovie, string cityName, DateTime showDayInput, string type )
+        public List<BookingShowtime> getBookingShowtime(int? idMovie, string cityName, DateTime showDayInput , string type )
         {
             List<BookingShowtime> showtimes = new List<BookingShowtime>();
             try
@@ -216,10 +211,12 @@ namespace Movie.DAO
                 cmd.BindByName = true;
                 string showDay = showDayInput.ToShortDateString();
                 char[] convertedShowDay = showDay.ToCharArray();
+
                 cmd.Parameters.Add("paramShowDay", convertedShowDay);
                 cmd.Parameters.Add("paramIdMovie", idMovie);
                 cmd.Parameters.Add("paramCityName", cityName);
                 cmd.Parameters.Add("paramType", type);
+
 
                 var tab = fillDataTable(cmd);
 
@@ -263,6 +260,7 @@ namespace Movie.DAO
                     , conn);
 
                 cmd.BindByName = true;
+
                 string showDay = showDayInput.ToShortDateString();
                 char[] convertedShowDay = showDay.ToCharArray();
                 cmd.Parameters.Add("paramShowDay", convertedShowDay);

@@ -60,12 +60,11 @@ ul, ol, li {
 .container_city {
     border-top: 2px solid #2b2b2b;
 }
+
 .container_city--list {
-            display: inline-block;
-            padding: 20px;
-           
-            border-top: 2px solid #2b2b2b;
-}
+    display: inline-block;
+    padding: 20px;
+}   
 
     .container_city--list li {
         display: inline-block;
@@ -87,8 +86,6 @@ ul, ol, li {
 .container_type--list {
     display: inline-block;
     padding: 20px;
-   
-    border-top: 2px solid #2b2b2b;
 }
 
     .container_type--list li {
@@ -97,6 +94,7 @@ ul, ol, li {
         border: 2px solid #222;
         border-radius: 5px;
         padding: 0 5px 0 5px;
+        cursor: pointer;
 
     }
 
@@ -108,14 +106,19 @@ ul, ol, li {
 .container_cinema {
     border-top: 2px solid #2b2b2b;
 }
-.container_cinema--site {
-    margin-left: 20px;
-    color: #636363;
-    font-family: Verdana, Arial, sans-serif;
-    font-size: 18px;
-    font-style: normal;
-    text-rendering: optimizeSpeed;
-}
+
+    .container_cinema--list{
+        border-bottom:1px solid black
+    }
+
+    .container_cinema--movie_theater {
+        margin-left: 20px;
+        color: #636363;
+        font-family: Verdana, Arial, sans-serif;
+        font-size: 18px;
+        font-style: normal;
+        text-rendering: optimizeSpeed;
+    }
 
 /*.container_showtime--room {
     margin-left: 20px;
@@ -126,13 +129,13 @@ ul, ol, li {
     text-rendering: optimizeSpeed;
 }*/
 
-.container_cinema--list {
+.container_cinema--showtimes {
     display: inline-block;
-    padding: 20px;
-    border-top: 2px solid #2b2b2b;
+    padding: 0px 20px;
+    
 }
 
-    .container_cinema--list li {
+    .container_cinema--showtimes li {
         display: inline-block;
         border: 1px solid #cbcabe;
         color: #222;
@@ -143,7 +146,7 @@ ul, ol, li {
         margin-right: 3px;
     }
 
-        .container_cinema--list li > a {
+        .container_cinema--showtimes li > a {
             color: black;
             text-decoration: none;
             touch-action: manipulation;

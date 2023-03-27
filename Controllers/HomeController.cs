@@ -1,17 +1,16 @@
 ﻿using Movie.DAO;
 using Movie.Models;
-using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Linq;
 
 namespace Movie.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         public ActionResult Index()
         {
@@ -24,16 +23,37 @@ namespace Movie.Controllers
         {
             var dao = new ShowtimeDao();
 
-            var cities = ViewBag.cities = dao.getCitiesByIdMovie(idFilm);
-            var showDays = ViewBag.showDays = dao.getShowDaysByIdMovie(idFilm);
-            var types = ViewBag.types = dao.getTypeCinemaByIdMovie(idFilm);
+            var showDays = dao.getShowDaysByIdMovie(idFilm);
+            var cities = dao.getCitiesByIdMovie(idFilm);
+            var types = dao.getTypeCinemaByIdMovie(idFilm);
 
-            string cityName = cities.FirstOrDefault();
-            DateTime showDayInput = showDays.FirstOrDefault();
-            string type = types.FirstOrDefault();
+            ViewData["cities"] = cities;
+            ViewData["showDays"] = showDays;
+            ViewData["types"] = types;
 
-            ViewData["show time"] = dao.getBookingShowtime(idFilm,  cityName,  showDayInput,  type);
-             
+            DateTime showDayInput =  DateTime.Now ;
+            string type = "";
+            string cityName = "";
+
+
+            if (showDays.FirstOrDefault() != null)
+            { 
+                showDayInput = showDays.FirstOrDefault().startTime; 
+            }
+
+            if (types.FirstOrDefault() != null)
+            { 
+                type = types.FirstOrDefault().Type; 
+            }
+
+            if (cities.FirstOrDefault() != null)
+            {
+                cityName = cities.FirstOrDefault().City;
+            }
+
+            var showTimes = dao.getBookingShowtime(idFilm, cityName, showDayInput, type);
+            ViewData["show time"] = showTimes;
+
             return View();
         }
 

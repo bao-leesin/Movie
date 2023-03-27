@@ -41,9 +41,10 @@ namespace Movie.DAO
                 movies = (from DataRow row in tab.Rows
                           select new Film()
                           {
-                              idFilm = Convert.ToInt32(row["id_movie"]),
-                              nameFilm = Convert.ToString(row["name_movie"]),
-                              duration = Convert.ToInt32(row["duration"])
+                              Id = Convert.ToInt32(row["id_movie"]),
+                              FilmName = Convert.ToString(row["name_movie"]),
+                              Duration = Convert.ToInt32(row["duration"]),
+                              ImageUrl = Convert.ToString(row["url_image"])
                           }
                             ).ToList();
 

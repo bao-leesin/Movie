@@ -7,9 +7,10 @@ namespace Movie.Models
 {
     public class Film
     {
-        public int idFilm { get; set; }
-        public string nameFilm { get; set; }
-        public int duration { get; set; }
+        public int Id { get; set; }
+        public string FilmName { get; set; }
+        public int Duration { get; set; }
+        public string ImageUrl { get; set; }
 
     }
 }
