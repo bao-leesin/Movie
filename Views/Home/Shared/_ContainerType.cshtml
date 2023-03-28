@@ -1,10 +1,10 @@
 ﻿@{ 
-    var types = ViewData["type"] as IEnumerable<Movie.Models.BookingShowtime>;
+    var types = ViewData["types"] as IEnumerable<Movie.Models.BookingShowtime>;
 }
 <ul class="container_type--list">
-    @foreach (var item in ViewBag.types)
+    @foreach (var item in types)
     {
-        <li onclick="">
+        <li class="Paracetamol" id="typeOf_@item.Id" data-type=@item.Type >
             <span> @item.Type </span>
         </li>
     }

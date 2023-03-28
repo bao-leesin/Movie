@@ -13,7 +13,7 @@
 <div class="grid-container">
     @foreach (var item in Model)
     {
-        <div class="grid-item" id="@item.Id">
+        <div class="grid-item" id="@item.Id" oncl>
             <div class="product-images" >
                 <a href="@Url.Action("bookShowTimeByIdFilm","Home", new {idFilm = item.Id})">
                 <img class="product-image" src="@item.ImageUrl" alt=""/>

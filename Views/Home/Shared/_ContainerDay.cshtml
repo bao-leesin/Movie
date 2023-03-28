@@ -6,7 +6,7 @@
     @foreach (var item in showDays)
     {
         <li>
-            <div class="day" id="@item.Id" onclick="">
+            <div class="day Paracetamol" id="dayOf_@item.Id" data-day=@item.startTime >
                 <span>@item.startTime.ToString("MM")</span>
                 <em>@item.startTime.ToString("ddd")</em>
                 <strong>@item.startTime.ToString("dd")</strong>

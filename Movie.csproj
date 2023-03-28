@@ -169,6 +169,7 @@
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Common\CommonContants.cs" />
     <Compile Include="Common\CustomRoleProvider.cs" />
+    <Compile Include="Common\Request\ShowtimeGetRequest.cs" />
     <Compile Include="Common\UserLogin.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -218,6 +219,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\Ajax\Login_Scripts.js" />
+    <Content Include="Scripts\Ajax\ShowtimeBooking_Scripts.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
