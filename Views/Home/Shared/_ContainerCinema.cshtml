@@ -8,10 +8,9 @@
     select newGroup;
 }
 
-@foreach (var name in groupMovieTheaterName)
-{
-
-    <div class="container_cinema--list ">
+<div class="container_cinema--list ">
+    @foreach (var name in groupMovieTheaterName)
+    {
         <div class="container_cinema--movie_theater">
             <h3>@name.Key</h3>
         </div>
@@ -27,6 +26,6 @@
             }
 
         </ul>
-    </div>
-}
+    }
+</div>
 

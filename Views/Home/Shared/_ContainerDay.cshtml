@@ -5,8 +5,8 @@
 <ul class="container_date--list">
     @foreach (var item in showDays)
     {
-        <li>
-            <div class="day Paracetamol" id="dayOf_@item.Id" data-day=@item.startTime >
+        <li class="Paracetamol" id="dayOf_@item.Id" data-day=@item.startTime>
+            <div class="day">
                 <span>@item.startTime.ToString("MM")</span>
                 <em>@item.startTime.ToString("ddd")</em>
                 <strong>@item.startTime.ToString("dd")</strong>

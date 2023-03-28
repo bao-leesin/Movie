@@ -2,11 +2,10 @@
     var cities = ViewData["cities"] as IEnumerable<Movie.Models.BookingShowtime>;
 }
 
-
 <ul class="container_city--list">
     @foreach (var item in cities)
     {
-        <li class="Paracetamol" id="cityOf_@item.Id" data-city=@item.City>
+        <li class="Paracetamol" id="cityOf_@item.Id" data-city='@item.City'>
             <span> @item.City </span>
         </li>
     }

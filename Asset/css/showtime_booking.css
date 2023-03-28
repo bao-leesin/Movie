@@ -152,11 +152,25 @@ ul, ol, li {
             touch-action: manipulation;
         }
 
-li.current {
+.container_date--list .current {
+    border: 2px solid #222;
+    border-radius: 5px;
+}
+
+.container_city--list .current {
     background: #222;
     border-radius: 5px;
 }
 
-    li.current > span {
+    .container_city--list   .current > span {
+        color: #fff !important;
+    }
+
+.container_type--list .current {
+    background: #222;
+    border-radius: 5px;
+}
+
+    .container_type--list .current > span {
         color: #fff !important;
     }

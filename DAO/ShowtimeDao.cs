@@ -191,7 +191,7 @@ namespace Movie.DAO
         }
 
 
-        public List<BookingShowtime> getBookingShowtime(int? idMovie, string cityName, DateTime showDayInput , string type )
+        public List<BookingShowtime> getBookingShowtime(int? idMovie, string cityName, string showDayInput , string type )
         {
             List<BookingShowtime> showtimes = new List<BookingShowtime>();
             try
@@ -209,8 +209,7 @@ namespace Movie.DAO
                     , conn);
 
                 cmd.BindByName = true;
-                string showDay = showDayInput.ToShortDateString();
-                char[] convertedShowDay = showDay.ToCharArray();
+                char[] convertedShowDay = showDayInput.ToCharArray();
 
                 cmd.Parameters.Add("paramShowDay", convertedShowDay);
                 cmd.Parameters.Add("paramIdMovie", idMovie);
