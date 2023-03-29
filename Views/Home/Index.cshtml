@@ -25,10 +25,9 @@
                     <span>Thời lượng:</span>
                     <span>@item.Duration phút</span>
                 </div >
-                @Html.ActionLink("Đặt vé", "bookShowTimeByIdFilm", "Home", new { idFilm = item.Id })
+                @Html.ActionLink("Đặt vé", "bookShowTimeByIdFilm", new { idFilm = item.Id })
             </div>
         </div>
-
     }
 
 </div>

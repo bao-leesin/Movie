@@ -6,7 +6,6 @@
     <script src="~/Scripts/Ajax/ShowtimeBooking_Scripts.js"> </script>    
 }
 
-
 <!DOCTYPE html>
 
 <html>
@@ -17,22 +16,21 @@
 
 </head>
 <body>
-
+    <input hidden value="" />
     <div class="container">
         <div class="container_date">
-            @RenderPage("Shared/_ContainerDay.cshtml")
+            @Html.Partial("_ContainerDay")
         </div>
 
         <div class="container_city">
-            @RenderPage("Shared/_ContainerCity.cshtml")
+            @Html.Partial("_ContainerCity")
         </div>
 
         <div class="container_type">
-            @RenderPage("Shared/_ContainerType.cshtml")
+            @Html.Partial("_ContainerType")
         </div>
 
         <div class="container_cinema">
-            @RenderPage("Shared/_ContainerCinema.cshtml")
         </div>
     </div>
 

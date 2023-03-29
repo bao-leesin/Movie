@@ -14,5 +14,6 @@ namespace Movie.Common
             ADMIN = 1,
             CLIENT = 2
         };
+
     }
 }

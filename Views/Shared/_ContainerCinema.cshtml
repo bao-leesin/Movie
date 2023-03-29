@@ -1,8 +1,8 @@
-﻿@{
-    var showtimes = ViewData["show time"] as IEnumerable<Movie.Models.BookingShowtime>;
+﻿@model IEnumerable<Movie.Models.BookingShowtime>
 
+@{
     var groupMovieTheaterName =
-    from showtime in showtimes
+    from showtime in Model
     group showtime by showtime.movieTheaterName into newGroup
     orderby newGroup.Key
     select newGroup;
@@ -16,7 +16,7 @@
         </div>
 
         <ul class="container_cinema--showtimes">
-            @foreach (var item in showtimes.Where(show => show.movieTheaterName == name.Key))
+            @foreach (var item in Model.Where(show => show.movieTheaterName == name.Key))
             {
                 <li>
                     <a href="@Url.Action("bookChairs","Home", new {idShowTime = item.Id})">
@@ -24,7 +24,6 @@
                     </a>
                 </li>
             }
-
         </ul>
     }
 </div>

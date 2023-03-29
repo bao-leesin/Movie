@@ -14,22 +14,20 @@
 
     let currentElements = document.getElementsByClassName('current')
 
-    let currentDay = currentElements[0].getAttribute('data-day')
-    let currentCity = currentElements[1].getAttribute('data-city')
-    let currentType = currentElements[2].getAttribute('data-type')
+    var currentDay = currentElements[0].getAttribute('data-day')
+    var currentCity = currentElements[1].getAttribute('data-city')
+    var currentType = currentElements[2].getAttribute('data-type')
 
-    const $showtimeDiv = $('.container_cinema--list')
-    let url
+    const paramurl = window.location.search.split('=');
+
     if (currentElements.length == 3) {
-        url = `https://localhost:44355/Home/filterShowTime/${currentDay}/${currentCity}/${currentType} `
-    }
-
-    $.get(url, function (data) {
-        $showtimeDiv.replaceWith(data);
-    });
-        
-        
-
+        const $showtimeDiv = $('.container_cinema--list')
+        $(document).ready(function () {
+            $(".container_cinema").load("/Home/filterShowTime", { cityName: currentCity, showDayInput: currentDay, type: currentType, IdFilm: paramurl[1] });
+        }
+        )}
   
+        
+        
 });
 

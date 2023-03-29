@@ -94,11 +94,16 @@ namespace Movie.DAO
                 //            .Select(r => r.Field<DateTime>(tab.Columns.Cast<DataColumn>()
                 //            .FirstOrDefault(c => c.DataType == typeof(DateTime))?.ColumnName)).ToList();
 
+                int idTemp = 1;
                 dateTimes = (from DataRow row in tab.Rows
                           select new BookingShowtime()
                           {
+                              Id = tab.Rows.IndexOf(row),
                               startTime = Convert.ToDateTime(row["start_time"]),
-                          }).ToList();
+                          }
+
+                          
+                          ).ToList();
 
                 transaction.Rollback();
                 conn.Close();
@@ -138,6 +143,7 @@ namespace Movie.DAO
                 cities = (from DataRow row in tab.Rows
                           select new BookingShowtime()
                           {
+                              Id = tab.Rows.IndexOf(row),
                               City = Convert.ToString(row["city"]),
 
                           }).ToList();
@@ -174,6 +180,7 @@ namespace Movie.DAO
                 types = (from DataRow row in tab.Rows
                           select new BookingShowtime()
                           {
+                              Id = tab.Rows.IndexOf(row),
                               Type = Convert.ToString(row["type"]),
 
                           }).ToList();
@@ -191,7 +198,7 @@ namespace Movie.DAO
         }
 
 
-        public List<BookingShowtime> getBookingShowtime(int? idMovie, string cityName, string showDayInput , string type )
+        public List<BookingShowtime> getBookingShowtime(int? idMovie, string cityName, DateTime showDayInput , string type )
         {
             List<BookingShowtime> showtimes = new List<BookingShowtime>();
             try
@@ -209,7 +216,8 @@ namespace Movie.DAO
                     , conn);
 
                 cmd.BindByName = true;
-                char[] convertedShowDay = showDayInput.ToCharArray();
+                string showDays = showDayInput.ToShortDateString();
+                char[] convertedShowDay = showDays.ToCharArray();
 
                 cmd.Parameters.Add("paramShowDay", convertedShowDay);
                 cmd.Parameters.Add("paramIdMovie", idMovie);

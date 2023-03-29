@@ -64,16 +64,18 @@ ul, ol, li {
 .container_city--list {
     display: inline-block;
     padding: 20px;
-}   
+}
 
     .container_city--list li {
-        display: inline-block;
+        width: 100%;
+        padding: 20px 0px;
+        display: inline;
     }
 
         .container_city--list li > span {
             user-select: none;
             display: inline-block;
-            padding: 0 10px;
+            padding: 0 20px;
             cursor: pointer;
             font-size: 15px;
             position: relative;

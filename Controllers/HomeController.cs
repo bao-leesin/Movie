@@ -18,94 +18,83 @@ namespace Movie.Controllers
             var films = dao.getAllMovie();
             return View(films);
         }
- 
+        
+        [HttpGet]
         public ViewResult bookShowTimeByIdFilm(int? idFilm)
         {
-            //var dao = new ShowtimeDao();
+            var dao = new ShowtimeDao();
+            var showDays = dao.getShowDaysByIdMovie(idFilm);
+            var cities = dao.getCitiesByIdMovie(idFilm);
+            var types = dao.getTypeCinemaByIdMovie(idFilm);
 
-            //var showDays = dao.getShowDaysByIdMovie(idFilm);
-            //var cities = dao.getCitiesByIdMovie(idFilm);
-            //var types = dao.getTypeCinemaByIdMovie(idFilm);
-
-            TempData["idFilm"] = idFilm;
-            List<BookingShowtime> every = new List<BookingShowtime>();
-            every.Add(new BookingShowtime
-            {
-                Id = 1,
-                movieId = 1,
-                City = "Hà Nội",
-                movieName = "Hê",
-                movieTheaterName = "CGv",
-                roomId = 1,
-                startTime = DateTime.Now,
-                Type = "2d"
-            });
-            every.Add(new BookingShowtime
-            {
-                Id = 2,
-                movieId = 1,
-                City = "Hà Nội",
-                movieName = "Hê",
-                movieTheaterName = "CGv",
-                roomId = 1,
-                startTime = DateTime.Now,
-                Type = "2d"
-            });
-            every.Add(new BookingShowtime
-            {
-                Id = 3,
-                movieId = 1,
-                City = "Hà Nội",
-                movieName = "Hê",
-                movieTheaterName = "CGv",
-                roomId = 1,
-                startTime = DateTime.Now,
-                Type = "2d"
-            });
-
-            ViewData["cities"] = every;
-            ViewData["showDays"] = every;
-            ViewData["types"] = every;
-
-            string showDayInput =  "" ;
-            string type = "";
-            string cityName = "";
-
-
-            //if (showDays.FirstOrDefault() != null)
-            //{ 
-            //    showDayInput = showDays.FirstOrDefault().startTime; 
-            //}
-
-            //if (types.FirstOrDefault() != null)
-            //{ 
-            //    type = types.FirstOrDefault().Type; 
-            //}
-
-            //if (cities.FirstOrDefault() != null)
+            //List<BookingShowtime> every = new List<BookingShowtime>();
+            //every.Add(new BookingShowtime
             //{
-            //    cityName = cities.FirstOrDefault().City;
-            //}
+            //    Id = 1,
+            //    movieId = 1,
+            //    City = "Hà Nội",
+            //    movieName = "Hê",
+            //    movieTheaterName = "CGv",
+            //    roomId = 1,
+            //    startTime = DateTime.Now,
+            //    Type = "2d"
+            //});
+            //every.Add(new BookingShowtime
+            //{
+            //    Id = 2,
+            //    movieId = 1,
+            //    City = "Hà Nội",
+            //    movieName = "Hê",
+            //    movieTheaterName = "CGv",
+            //    roomId = 1,
+            //    startTime = DateTime.Now,
+            //    Type = "2d"
+            //});
+            //every.Add(new BookingShowtime
+            //{
+            //    Id = 3,
+            //    movieId = 1,
+            //    City = "Hà Nội",
+            //    movieName = "Hê",
+            //    movieTheaterName = "CGv",
+            //    roomId = 1,
+            //    startTime = DateTime.Now,
+            //    Type = "2d"
+            //});
 
-            //var showTimes = dao.getBookingShowtime(idFilm, cityName, showDayInput, type);
+            //ViewData["cities"] = every;
+            //ViewData["showDays"] = every;
+            //ViewData["types"] = every;
+            //ViewData["show time"] = every;
 
-            ViewData["show time"] = every;
+
+            ViewData["cities"] = cities;
+            ViewData["showDays"] = showDays;
+            ViewData["types"] = types;
 
             return View();
+        
         }
 
-        [Route("{cityName}/{showDayInput}/{type}")]
+        
+        public ActionResult filterShowTime(string cityName, DateTime showDayInput, string type,int IdFilm)
+        {
+            List<BookingShowtime> showtimes = new ShowtimeDao().getBookingShowtime(IdFilm, cityName, showDayInput, type);
+            return PartialView("_ContainerCinema",showtimes);
+        }
+
         [HttpGet]
-        public PartialViewResult filterShowTime(String showDayInput,string cityName, string type)
+        public ActionResult bookChairs(int idShowTime)
         {
-            int idFilm = (int)TempData["idFilm"];
-            ViewData["show time"] = new ShowtimeDao().getBookingShowtime(idFilm, cityName, showDayInput, type);
-            return PartialView("shared/_ContainerCinema");
-        }
-        public ActionResult BookShowTimeByDay()
-        {
+            TempData.Clear();
+
             return View();
         }
 
+        [HttpPost]
+        public ActionResult bookChairs()
+        {
+            return View();
+        }
     }
 }
