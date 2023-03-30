@@ -131,10 +131,23 @@ namespace Movie.Controllers
             return View(mymodel);
         }
 
-        public JsonResult dístributeChairTier()
+        public JsonResult dístributeChairTier(int showTime)
         {
-            int a=0;
-            return Json(a);
+            var dao = new ChairDao();
+            var listTierChair = dao.getTierChair(showTime);
+
+            List<ChairGroup> chairGroup = new List<ChairGroup>();
+
+            foreach (var tier in listTierChair)
+            {
+                chairGroup.Add(
+                new ChairGroup()
+                {
+                    Tier = tier.ToString(),
+                    Chairs = dao.getChairsByTier(showTime, tier.ToString())
+                });
+            }
+            return Json(chairGroup);
         }
 
         [HttpGet]

@@ -13,4 +13,9 @@ namespace Movie.Models
         public int OverSpending { get; set; }
 
     }
+
+    public class ChairGroup : Chair
+    {
+        public List<int> Chairs { get; set; }
+    }
 }
