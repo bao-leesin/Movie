@@ -87,22 +87,14 @@ namespace Movie.DAO
                 cmd.BindByName = true;
                 cmd.Parameters.Add("idMovieParam", idMovie);
 
-                var tab = fillDataTable(cmd);
+                var tab = fillDataTable(cmd);              
 
-                //dateTimes = tab.Rows
-                //            .Cast<DataRow>()
-                //            .Select(r => r.Field<DateTime>(tab.Columns.Cast<DataColumn>()
-                //            .FirstOrDefault(c => c.DataType == typeof(DateTime))?.ColumnName)).ToList();
-
-                int idTemp = 1;
                 dateTimes = (from DataRow row in tab.Rows
                           select new BookingShowtime()
                           {
                               Id = tab.Rows.IndexOf(row),
                               startTime = Convert.ToDateTime(row["start_time"]),
                           }
-
-                          
                           ).ToList();
 
                 transaction.Rollback();
@@ -116,8 +108,6 @@ namespace Movie.DAO
                 return dateTimes;
             }
         }
-
-
 
         public List<BookingShowtime> getCitiesByIdMovie(int? idMovie)
         {
@@ -197,7 +187,6 @@ namespace Movie.DAO
             }
         }
 
-
         public List<BookingShowtime> getBookingShowtime(int? idMovie, string cityName, DateTime showDayInput , string type )
         {
             List<BookingShowtime> showtimes = new List<BookingShowtime>();
@@ -223,7 +212,6 @@ namespace Movie.DAO
                 cmd.Parameters.Add("paramIdMovie", idMovie);
                 cmd.Parameters.Add("paramCityName", cityName);
                 cmd.Parameters.Add("paramType", type);
-
 
                 var tab = fillDataTable(cmd);
 
