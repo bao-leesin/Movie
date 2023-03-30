@@ -1,0 +1,67 @@
+﻿@using Movie;
+@model dynamic
+
+@{
+    ViewBag.Title = "bookChairs";
+    int NumberOfRow = ViewBag.NumberOfRow;
+    int ChairQuantity = ViewBag.ChairQuantity;
+
+    IEnumerable<Movie.Models.Chair> SoldChairs = Model.SoldChairs;
+
+}
+
+@section scripts{
+    <script src="~/Scripts/Ajax/ChairBooking_Scripts.js"></script>
+}
+
+<head>
+    <link rel="stylesheet" href="~/Asset/css/chair_booking.css" />
+</head>
+
+
+<ul class="showcase">
+    <li>
+        <div class="seat"></div>
+        <small>Available</small>
+    </li>
+    <li>
+        <div class="seat selected"></div>
+        <small>Selected</small>
+    </li>
+    <li>
+        <div class="seat sold"></div>
+        <small>Sold</small>
+    </li>
+</ul>
+<div class="container">
+    <div class="screen"></div>
+
+    @for (int i = 0; i < (ChairQuantity / NumberOfRow); i++)
+    {
+        <div class="row">
+            @for (int j = 1; j <= NumberOfRow; j++)
+            {
+                int chairID = i * NumberOfRow + j;
+
+                if (SoldChairs.FirstOrDefault(x => x.Id == chairID) != null)
+                {
+                    <div class="seat sold" id="@chairID">
+                    </div>
+                }
+                else
+                {
+                    <div class="seat" id="@chairID">
+                    </div>
+                }
+            }
+        </div>
+    }
+</div>
+
+<p class="text">
+    You have selected <span id="count">0</span> seat for a price of RS.<span id="total">0</span>
+</p>
+
+
+
+
