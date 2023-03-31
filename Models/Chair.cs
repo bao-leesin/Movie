@@ -16,6 +16,6 @@ namespace Movie.Models
 
     public class ChairGroup : Chair
     {
-        public List<int> Chairs { get; set; }
+        public List<string> Chairs { get; set; }
     }
 }

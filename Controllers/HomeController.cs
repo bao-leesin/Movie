@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using System.Linq;
 using System.Dynamic;
 using Microsoft.Ajax.Utilities;
+using System.Web.Helpers;
 
 namespace Movie.Controllers
 {
@@ -31,40 +32,40 @@ namespace Movie.Controllers
             var cities = dao.getCitiesByIdMovie(idFilm);
             var types = dao.getTypeCinemaByIdMovie(idFilm);
 
-            List<BookingShowtime> every = new List<BookingShowtime>();
-            every.Add(new BookingShowtime
-            {
-                Id = 1,
-                movieId = 1,
-                City = "Hà Nội",
-                movieName = "Hê",
-                movieTheaterName = "CGv",
-                roomId = 1,
-                startTime = DateTime.Now,
-                Type = "2d"
-            });
-            every.Add(new BookingShowtime
-            {
-                Id = 2,
-                movieId = 1,
-                City = "Hà Nội",
-                movieName = "Hê",
-                movieTheaterName = "CGv",
-                roomId = 1,
-                startTime = DateTime.Now,
-                Type = "2d"
-            });
-            every.Add(new BookingShowtime
-            {
-                Id = 3,
-                movieId = 1,
-                City = "Hà Nội",
-                movieName = "Hê",
-                movieTheaterName = "CGv",
-                roomId = 1,
-                startTime = DateTime.Now,
-                Type = "2d"
-            });
+            //List<BookingShowtime> every = new List<BookingShowtime>();
+            //every.Add(new BookingShowtime
+            //{
+            //    Id = 1,
+            //    movieId = 1,
+            //    City = "Hà Nội",
+            //    movieName = "Hê",
+            //    movieTheaterName = "CGv",
+            //    roomId = 1,
+            //    startTime = DateTime.Now,
+            //    Type = "2d"
+            //});
+            //every.Add(new BookingShowtime
+            //{
+            //    Id = 2,
+            //    movieId = 1,
+            //    City = "Hà Nội",
+            //    movieName = "Hê",
+            //    movieTheaterName = "CGv",
+            //    roomId = 1,
+            //    startTime = DateTime.Now,
+            //    Type = "2d"
+            //});
+            //every.Add(new BookingShowtime
+            //{
+            //    Id = 3,
+            //    movieId = 1,
+            //    City = "Hà Nội",
+            //    movieName = "Hê",
+            //    movieTheaterName = "CGv",
+            //    roomId = 1,
+            //    startTime = DateTime.Now,
+            //    Type = "2d"
+            //});
 
             //ViewData["cities"] = every;
             //ViewData["showDays"] = every;
@@ -86,23 +87,37 @@ namespace Movie.Controllers
         }
 
         [HttpGet]
-        public ActionResult bookChairs()
+        public ActionResult bookChairs(int idShowtime)
         {
-            TempData.Clear();
+            ViewData.Clear();
 
-            //var roomDao = new RoomDao();
+            var roomDao = new RoomDao();
+            var chairDao = new ChairDao();
 
-            //Room room = roomDao.getChairsOfRoom(idShowtime);
-            //List<Chair> soldChairs = roomDao.getSoldChairIdList(idShowtime);
-            //int chairQuantity = room.ChairQuantity;
+            Room room = roomDao.getChairsOfRoom(idShowtime);
 
-            List<Chair> soldChairs = new List<Chair>();
-            soldChairs.Add(new Chair() { Id = 1 });
-            soldChairs.Add(new Chair() { Id = 11 });
-            soldChairs.Add(new Chair() { Id = 31 });
-            soldChairs.Add(new Chair() { Id = 41 });
+            int chairQuantity;
 
-            /* Chưa tìm được cách nhẹ nhàng để hiện tier */
+            if (room != null)
+            {
+             chairQuantity = room.ChairQuantity;
+            }
+            else
+            {
+             chairQuantity = 0;
+            }
+            
+
+            List<int> soldChairs = chairDao.getSoldChairList(idShowtime);
+
+
+            //int chairQuantity = 100;
+
+            //List<Chair> soldChairs = new List<Chair>();
+            //soldChairs.Add(new Chair() { Id = 1 });
+            //soldChairs.Add(new Chair() { Id = 11 });
+            //soldChairs.Add(new Chair() { Id = 31 });
+            //soldChairs.Add(new Chair() { Id = 41 });
 
             //List<Chair> normalTierChairs = new List<Chair>();
             //normalTierChairs.Add(new Chair() { Id = 1 });
@@ -116,25 +131,34 @@ namespace Movie.Controllers
             //vipTierChairs.Add(new Chair() { Id = 15 });
             //vipTierChairs.Add(new Chair() { Id = 16 });
 
-            int chairQuantity = 80;
 
+            int numberOfRow = 10;
+            int numberOfColumn = chairQuantity / numberOfRow;
+
+            char[] alphabet = new char[numberOfColumn];
+
+            for(int i = 65; i < 65 + numberOfColumn; i++)
+            {
+                alphabet[i-65] = (char)i;
+            }
+
+
+            ViewBag.Alphabet = alphabet;
             ViewBag.ChairQuantity = chairQuantity;
-            ViewBag.NumberOfRow = 10;
-            ViewBag.NormalOverspending = 10;
-            ViewBag.VipOverspending = 20;
+            ViewBag.NumberOfRow = numberOfRow;
+            ViewBag.NumberOfColumn = numberOfColumn;
 
             dynamic mymodel = new ExpandoObject();
             mymodel.SoldChairs = soldChairs;
-            //mymodel.NormalTierChairs = normalTierChairs;
-            //mymodel.VipTierChairs = vipTierChairs;
+
 
             return View(mymodel);
         }
-
-        public JsonResult dístributeChairTier(int showTime)
+        [HttpGet]
+        public JsonResult distributeChairTier()
         {
             var dao = new ChairDao();
-            var listTierChair = dao.getTierChair(showTime);
+            var listTierChair = dao.getTierChair();
 
             List<ChairGroup> chairGroup = new List<ChairGroup>();
 
@@ -144,21 +168,23 @@ namespace Movie.Controllers
                 new ChairGroup()
                 {
                     Tier = tier.ToString(),
-                    Chairs = dao.getChairsByTier(showTime, tier.ToString())
+                    Chairs = dao.getChairsByTier(tier.ToString())
                 });
             }
-            return Json(chairGroup);
+
+            return Json(chairGroup,JsonRequestBehavior.AllowGet);
         }
 
-        [HttpGet]
-        public JsonResult calculatePrice(int[] idChairs)
+        [HttpPost]
+        public JsonResult calculatePrice(int[] selectedChairs)
         {
-            
-            int basePrice = 1;
-            int overspending = 2; 
-            int price = basePrice + overspending*idChairs.Length;
 
-            return Json(price);
+            var chairDao = new ChairDao();
+            var chairPrices = chairDao.getChairPrice();
+
+
+
+            return Json(chairPrices);
         }
 
         //[HttpPost]

@@ -24,17 +24,16 @@ namespace Movie.DAO
             return tab;
         }
 
-        public List<String> getTierChair(int idShowtime)
+        public List<String> getTierChair( )
         {
             conn.Open();
             var transaction = conn.BeginTransaction();
 
             try
             {
-                OracleCommand cmd = new OracleCommand("",conn);
+                OracleCommand cmd = new OracleCommand("SELECT tier_chair FROM chair_price order by 1",conn);
                 
                 cmd.BindByName = true;
-                cmd.Parameters.Add("", idShowtime);
 
                 var tab = fillDataTable(cmd);
 
@@ -55,6 +54,42 @@ namespace Movie.DAO
             }
         }
 
+        public List<Chair> getChairPrice( ) {
+            conn.Open();
+            var transaction = conn.BeginTransaction();
+
+            try
+            {
+                OracleCommand cmd = new OracleCommand("SELECT tier_chair,base_price FROM chair_price order by 1", conn);
+
+                cmd.BindByName = true;
+
+                var tab = fillDataTable(cmd);
+
+                List<Chair> tierList = (from DataRow dr in tab.Rows
+                                        select new Chair
+                                        {
+                                            Tier = dr["tier_chair"].ToString(),
+                                            OverSpending = Convert.ToInt32(dr["BASE_PRICE"])
+                                        }
+                                        ).ToList();
+
+                transaction.Commit();
+                conn.Close();
+
+                return tierList;
+
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+                transaction.Rollback();
+                conn.Close();
+                return null;
+            }
+
+        }
+
         public List<int> getSoldChairList(int idShowtime)
         {
 
@@ -62,7 +97,7 @@ namespace Movie.DAO
             var transaction = conn.BeginTransaction();
             try
             {
-                OracleCommand cmd = new OracleCommand("", conn);
+                OracleCommand cmd = new OracleCommand("select id_chair from ticket where id_show_time = :paramIdShowtime", conn);
 
                 cmd.BindByName = true;
                 cmd.Parameters.Add("paramIdShowTime", idShowtime);
@@ -84,21 +119,21 @@ namespace Movie.DAO
             }
         }
 
-        public List<int> getChairsByTier(int idShowtime, string tier)
+        public List<string> getChairsByTier( string tier)
         {
 
             conn.Open();
             var transaction = conn.BeginTransaction();
             try
             {
-                OracleCommand cmd = new OracleCommand("", conn);
+                OracleCommand cmd = new OracleCommand("select id_chair from chair where tier_chair = :paramTier", conn);
 
                 cmd.BindByName = true;
-                cmd.Parameters.Add("paramIdShowTime", idShowtime);
+                cmd.Parameters.Add("paramTier", tier);
 
                 DataTable tab = fillDataTable(cmd);
 
-                List<int> chairList = tab.AsEnumerable().Select(x => Convert.ToInt32(x[0])).ToList();
+                List<string> chairList = tab.AsEnumerable().Select(x => (x[0]).ToString()).ToList();
 
                 transaction.Commit();
                 conn.Close();

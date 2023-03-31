@@ -3,10 +3,8 @@
 
 @{
     ViewBag.Title = "bookChairs";
-    int NumberOfRow = ViewBag.NumberOfRow;
-    int ChairQuantity = ViewBag.ChairQuantity;
 
-    IEnumerable<Movie.Models.Chair> SoldChairs = Model.SoldChairs;
+    var SoldChairs = Model.SoldChairs as List<int>;
 
 }
 
@@ -36,21 +34,23 @@
 <div class="container">
     <div class="screen"></div>
 
-    @for (int i = 0; i < (ChairQuantity / NumberOfRow); i++)
+    @for (int i = 0; i < ViewBag.NumberOfColumn; i++)
     {
         <div class="row">
-            @for (int j = 1; j <= NumberOfRow; j++)
+            @for (int j = 1; j <= ViewBag.NumberOfRow; j++)
             {
-                int chairID = i * NumberOfRow + j;
+                int chairID = i * ViewBag.NumberOfRow + j;
 
-                if (SoldChairs.FirstOrDefault(x => x.Id == chairID) != null)
+                if (SoldChairs.Contains(chairID))
                 {
                     <div class="seat sold" id="@chairID">
+                        @(ViewBag.Alphabet[i].ToString() + j.ToString())
                     </div>
                 }
                 else
                 {
                     <div class="seat" id="@chairID">
+                        @(ViewBag.Alphabet[i].ToString() + j.ToString())
                     </div>
                 }
             }
@@ -58,9 +58,7 @@
     }
 </div>
 
-<p class="text">
-    You have selected <span id="count">0</span> seat for a price of RS.<span id="total">0</span>
-</p>
+
 
 
 

@@ -34,10 +34,11 @@ namespace Movie.DAO
             try
             {
                 OracleCommand cmd = new OracleCommand(
-                                    "",
+                                    "SELECT chair_quantity from room WHERE id_room = " +
+                                    "(select id_room from show_time where id_show_time = :paramIdShowtime)",
                                     conn);
                 cmd.BindByName = true;
-                cmd.Parameters.Add("");
+                cmd.Parameters.Add("paramIdShowtime",idShowtime);
 
                 var tab = fillDataTable(cmd);
 

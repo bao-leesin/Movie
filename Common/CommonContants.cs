@@ -15,5 +15,6 @@ namespace Movie.Common
             CLIENT = 2
         };
 
+       
     }
 }

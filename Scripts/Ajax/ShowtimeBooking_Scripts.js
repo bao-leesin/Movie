@@ -17,15 +17,16 @@
     var currentDay = currentElements[0].getAttribute('data-day')
     var currentCity = currentElements[1].getAttribute('data-city')
     var currentType = currentElements[2].getAttribute('data-type')
+    const currentIdFilm = window.location.search.split('=');
 
-    const paramurl = window.location.search.split('=');
 
     if (currentElements.length == 3) {
         const $showtimeDiv = $('.container_cinema--list')
         $(document).ready(function () {
-            $(".container_cinema").load("/Home/filterShowTime", { cityName: currentCity, showDayInput: currentDay, type: currentType, IdFilm: paramurl[1] });
+            $(".container_cinema").load("/Home/filterShowTime", { cityName: currentCity, showDayInput: currentDay, type: currentType, IdFilm: currentIdFilm[1] });
         }
         )}
+
   
         
         
