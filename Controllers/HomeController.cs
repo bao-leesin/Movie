@@ -124,7 +124,7 @@ namespace Movie.Controllers
             foreach (JProperty property in listSelectedChairByTier.Properties()) { 
                 string tier = property.Name;
                 int quantity = (int)property.Value;
-                int chairPrice = chairDao.getChairPrice(tier) + ;
+                int chairPrice = chairDao.getChairPrice(tier) ;
                 total += chairPrice*quantity;
             }
 
