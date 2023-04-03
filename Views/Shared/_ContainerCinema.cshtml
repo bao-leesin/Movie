@@ -3,7 +3,7 @@
 @{
     var groupMovieTheaterName =
     from showtime in Model
-    group showtime by showtime.movieTheaterName into newGroup
+    group showtime by showtime.MovieTheaterName into newGroup
     orderby newGroup.Key
     select newGroup;
 }
@@ -16,11 +16,11 @@
         </div>
 
         <ul class="container_cinema--showtimes">
-            @foreach (var item in Model.Where(show => show.movieTheaterName == name.Key))
+            @foreach (var item in Model.Where(show => show.MovieTheaterName == name.Key))
             {
                 <li>
                     <a href="@Url.Action("bookChairs","Home", new {idShowTime = item.Id})">
-                        <span>@item.startTime.ToString("h tt")</span>
+                        <span>@item.StartTime.ToString("h tt")</span>
                     </a>
                 </li>
             }

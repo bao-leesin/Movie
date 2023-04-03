@@ -55,17 +55,16 @@
                 }
             }
         </div>
-
-        <div class="showtime-info">
-            @*<input class="idShowTime" hidden value="@ShowTimeInfo"/>*@
-            @*@Html.ActionLink("QUAY LẠI")*@
-            <div class="showtime-info--image"> </div>
-            <div class="showtime-info--name"></div>
-            <div class="showtime-info--detail"></div>
-            <div class="showtime-info--chair_price"></div>
-            <button class="btn-success" @Url.Action("bookTicket",new {idShowtime = ShowTimeInfo.Id})></button>
-        </div>
     }
+
+    <div class="showtime-info">
+        @*@Html.ActionLink("QUAY LẠI")*@
+        <div class="showtime-info--image"> </div>
+        <div class="showtime-info--movie_name"> </div>
+        <div class="showtime-info--place"> </div>
+        <div class="showtime-info--chair_price"> </div>
+         @Html.ActionLink("ĐẶT VÉ","BookTicket",new {bookingShowtime = ShowTimeInfo})
+    </div>
 </div>
 
 

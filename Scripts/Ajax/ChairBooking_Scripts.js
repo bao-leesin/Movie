@@ -3,21 +3,8 @@ const seats = document.querySelectorAll(".row .seat");
 const count = document.getElementById("count");
 const total = document.getElementById("total");
 
-
-$.get('/Home/distributeChairTier',
-    {},
-    (jsonData) => {
-        jsonData.forEach(chairs => {
-            chairs.Chairs.forEach(chair => {
-                const seat = Array.from(seats).find(seat => seat.id === chair)
-                seat.classList.add(chairs.Tier)
-            })
-        })
-    }
-)
-
+localStorage.clear();
 populateUI();
-
 
 function updateSelectedCount() {
     const selectedSeats = document.querySelectorAll(".row .seat.selected");
@@ -32,11 +19,12 @@ function updateSelectedCount() {
     /* Lọc qua các phần tử, kiểm tra các ghế bằng id lấy từ Storage xem có class là tier đó không. Đếm rồi tạo cặp Key-Value */
             let count = 0
             seatsIndex.forEach(index => {
-                !!document.getElementById(index).classList.contains(value) && count++
+                if (document.getElementById(index).classList.contains(tier)) {
+                    count++
+                }  
             })
-            return { ...accumulator, [value]: count }
+            return { ...accumulator, [tier]: count } 
         }, {})
-
         return listTierOfSelectedChairs
     }
 
@@ -47,9 +35,13 @@ function updateSelectedCount() {
         {},
         (listChairTier) => {
             const listTierOfSelectedChairs = countChairByTier(listChairTier)
-            $.post(
-                "/Home/calculatePrice",
-                { listTierOfSelectedChairs },
+     
+             $.post(     
+                 "/Home/calculatePrice",
+                 {
+                     tierWithChairs: JSON.stringify(listTierOfSelectedChairs),
+                     jsonChairIds: JSON.stringify(seatsIndex)
+                 },
                 (total) => {
                     console.log(total)
                     $(".showtime-info--chair_price").text(total)
@@ -71,6 +63,18 @@ function populateUI() {
             }
         });
     }
+
+    $.get('/Home/distributeChairTier',
+        {},
+        (jsonData) => {
+            jsonData.forEach(chairs => {
+                chairs.Chairs.forEach(chair => {
+                    const seat = Array.from(seats).find(seat => seat.id === chair)
+                    seat.classList.add(chairs.Tier)
+                })
+            })
+        }
+    )
 }
 
 container.addEventListener("click", (e) => {
@@ -83,7 +87,7 @@ container.addEventListener("click", (e) => {
     }
 });
 
-updateSelectedCount();
+/*updateSelectedCount();*/
 
 //function nextToTicketBooking(idShowtime) {
 //     = `@Url.Action(bookTicket,Home,new { idShowtime=${idShowtime}, price = ${$()} })``

@@ -8,6 +8,7 @@ namespace Movie.Models
     public class Ticket : BookingShowtime
     {
         public string Username { get; set; }
-        public int IdChair { get; set; }
+        public List<int> IdChair { get; set; }
+        public int idShowtime { get; set; }
     }
 }

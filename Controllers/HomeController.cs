@@ -12,10 +12,10 @@ using System.Web.Helpers;
 using Microsoft.Ajax.Utilities;
 using System.Security.Cryptography.X509Certificates;
 using Newtonsoft.Json.Linq;
+using System.Diagnostics;
 
 namespace Movie.Controllers
 {
-
     public class HomeController : Controller
     {
         public ViewResult Index()
@@ -114,12 +114,15 @@ namespace Movie.Controllers
         }
 
         [HttpPost]
-        public JsonResult calculatePrice(string jsonData) 
+        public JsonResult calculatePrice(string tierWithChairs,string jsonChairIds) 
         {
             var chairDao = new ChairDao();
             int total = 0;
 
-            var listSelectedChairByTier = JObject.Parse(jsonData);
+            JObject listSelectedChairByTier = JObject.Parse(tierWithChairs);
+            JArray jArray = JArray.Parse(jsonChairIds);
+            var selectedChairs = jArray.ToObject<List<int>>();
+
 
             foreach (JProperty property in listSelectedChairByTier.Properties()) { 
                 string tier = property.Name;
@@ -129,15 +132,29 @@ namespace Movie.Controllers
             }
 
             ViewData["Chair Price"] = total;
+            ViewData["Selected Chair"] = selectedChairs;
 
             return Json(total);
         }
 
-        public ActionResult bookTicket(string idShowtime)
+        public ActionResult bookTicket(BookingShowtime bookingShowtime)
         {
+            var dao = new ShowtimeDao();
+            int price = (int)ViewData["Chair Price"];
+            List<int> selectedChairs = ViewData["Selected Chair"] as List<int> ;
 
+            var ticket = new Ticket
+            {
+                MovieName = bookingShowtime.MovieName,
+                MovieTheaterName = bookingShowtime.MovieTheaterName,
+                StartTime = bookingShowtime.StartTime,
+                RoomName = bookingShowtime.RoomName,
+                Price = price,
+                Username = Convert.ToString(Session["username"]),
+                IdChair = selectedChairs
+            };
 
-            return View();
+            return View(ticket);
         }
 
     }

@@ -67,7 +67,7 @@ namespace Movie.DAO
 
                 var tab = fillDataTable(cmd);
 
-                int price = Convert.ToInt32(tab.Rows[0]);
+                int price = Convert.ToInt32(tab.Rows[0]["base_price"]);
 
                 transaction.Commit();
                 conn.Close();
