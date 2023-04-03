@@ -11,6 +11,6 @@ namespace Movie.Models
         public string FilmName { get; set; }
         public int Duration { get; set; }
         public string ImageUrl { get; set; }
-
+        public int Price { get; set; }
     }
 }

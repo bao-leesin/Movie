@@ -6,51 +6,12 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Linq;
-using System.Reflection;
-using System.Web;
 
 namespace Movie.DAO
 {
     public class ShowtimeDao
     {
 
-        ////Convert từ datable sang list 
-
-        //private static List<T> ConvertDataTable<T>(DataTable dt)
-        //{
-        //    List<T> data = new List<T>();
-        //    foreach (DataRow row in dt.Rows)
-        //    {
-        //    // Từng hàng(bản ghi) đc lôi ra
-        //        T item = GetItem<T>(row);
-        //        data.Add(item);
-        //    }
-        //    return data;
-        //}
-        //private static T GetItem<T>(DataRow dr)
-        //{
-        //    //check lớp đối tượng T
-        //    Type temp = typeof(T);
-        //    T obj = Activator.CreateInstance<T>();
-
-        //    //Duyệt qua từng cột của 1 hàng và từng biến của lớp T, nếu khớp thì SetValue = Rows[tên cột]
-        //    //Thuật toán này n2, thêm 1 for ở DT nên khả năng là chậm. Cộng với việc tên cột phải == tên thuộc tính 
-        //    // => ngắn nhưng cân nhắc dùng ở trg hợp khác
-
-        //    foreach (DataColumn column in dr.Table.Columns)
-        //    {
-        //        foreach (PropertyInfo pro in temp.GetProperties())
-        //        {
-        //            if (pro.Name == column.ColumnName)
-        //                pro.SetValue(obj, dr[column.ColumnName], null);
-        //            else
-        //                continue;
-        //        }
-        //    }
-        //    return obj;
-        //}
-
-        //********************************************************************
         OracleConnection conn = null;
 
         public ShowtimeDao()
@@ -58,8 +19,6 @@ namespace Movie.DAO
             conn = new OracleConnection(ConfigurationManager.ConnectionStrings["LOSDB"].ToString());
         }
 
-        //public void OpenConnection() { }
-        //public void CloseConnection() { } 
 
         public static DataTable fillDataTable(OracleCommand cmd)
         {
@@ -70,14 +29,55 @@ namespace Movie.DAO
             return tab;
         }
 
+        public BookingShowtime GetShowtimeDetail(int idShowtime)
+        {
+            conn.Open();
+            var transaction = conn.BeginTransaction();
+            try 
+            {
+                OracleCommand cmd = new OracleCommand(
+                   "SELECT id_show_time,name_movie,name_movie_theater,name_room,base_price" +
+                   "to_char(start_time, 'HH24:MI:SS') as start_time  " +
+                   "FROM show_time st JOIN movie mv ON st.id_movie = mv.id_move " +
+                   "JOIN room rm ON rm.id_room = st.id_room " +
+                   "JOIN movie_theater mt ON mt.id_room = rm.id_room " +
+                   "WHERE id_show_time = :paramIdShowtime"
+                    , conn);
+
+                cmd.BindByName = true;
+                cmd.Parameters.Add("paramIdShowtime", idShowtime);
+
+                 DataTable tab = fillDataTable(cmd);
+                 var row = tab.Rows[0];
+                 BookingShowtime showTimeDetail = new BookingShowtime()
+                                    {
+                                        Id = Convert.ToInt32(row["id_show_time"]),
+                                        MovieName = Convert.ToString(row["name_movie"]),
+                                        MovieTheaterName = Convert.ToString(row["name_movie_theater"]),
+                                        StartTime = Convert.ToDateTime(row["start_time"]),
+                                        RoomName = Convert.ToString(row["name_room"]),
+                                        Price = Convert.ToInt32(row["base_price"])
+                                    };
+
+                transaction.Rollback();
+                conn.Close();
+                return showTimeDetail ;
+            }
+            catch(Exception ex) {
+                ex.ToString();
+                transaction.Rollback();
+                conn.Close();
+                return null;
+            }
+        }
+
         public List<BookingShowtime> getShowDaysByIdMovie(int? idMovie)
         {
+            conn.Open();
+            var transaction = conn.BeginTransaction();
             List<BookingShowtime> dateTimes = new List<BookingShowtime>();
             try
             {
-                conn.Open();
-                var transaction = conn.BeginTransaction();
-
                 OracleCommand cmd = new OracleCommand(
                     "SELECT distinct Trunc(start_time) as start_time " +
                     "FROM show_time " +
@@ -93,7 +93,7 @@ namespace Movie.DAO
                           select new BookingShowtime()
                           {
                               Id = tab.Rows.IndexOf(row),
-                              startTime = Convert.ToDateTime(row["start_time"]),
+                              StartTime = Convert.ToDateTime(row["start_time"]),
                           }
                           ).ToList();
 
@@ -104,6 +104,8 @@ namespace Movie.DAO
             }
             catch (Exception e)
             {
+                transaction.Rollback();
+                conn.Close();
                 Console.WriteLine(e.ToString());
                 return dateTimes;
             }
@@ -196,7 +198,7 @@ namespace Movie.DAO
                 var transaction = conn.BeginTransaction();
 
                 OracleCommand cmd = new OracleCommand(
-                    "SELECT  ID_SHOW_TIME, name_movie_theater, " +
+                    "SELECT  id_show_time, name_movie_theater, " +
                     "to_char(start_time, 'HH24:MI:SS') as start_time " +
                     "FROM show_time A JOIN room B ON A.ID_ROOM = B.id_room " +
                     "JOIN movie_theater C ON B.id_movie_theater = C.id_movie_theater " +
@@ -219,17 +221,15 @@ namespace Movie.DAO
                              select new BookingShowtime()
                              {
                                  Id = Convert.ToInt32(row["id_show_time"]),
-                                 movieTheaterName = Convert.ToString(row["name_movie_theater"]),
-                                 startTime = Convert.ToDateTime(row["start_time"]),
+                                 MovieTheaterName = Convert.ToString(row["name_movie_theater"]),
+                                 StartTime = Convert.ToDateTime(row["start_time"]),
                              }
                             ).ToList();
 
                 transaction.Rollback();
                 conn.Close();
-
                 return showtimes;
             }
-
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
@@ -237,7 +237,6 @@ namespace Movie.DAO
             }
         }
 
-        
         public List<BookingShowtime> getShowtimeByDay(DateTime showDayInput)
         {
             List<BookingShowtime> showtimes = new List<BookingShowtime>();
@@ -267,9 +266,9 @@ namespace Movie.DAO
                              {
                                  Id = Convert.ToInt32(row["id_show_time"]),
                                  Type = Convert.ToString(row["type"]),
-                                 movieTheaterName = Convert.ToString(row["name_movie_theater"]),
+                                 MovieTheaterName = Convert.ToString(row["name_movie_theater"]),
                                  City = Convert.ToString(row["city"]),
-                                 startTime = Convert.ToDateTime(row["start_time"]),
+                                 StartTime = Convert.ToDateTime(row["start_time"]),
                              }
                             ).ToList();
 

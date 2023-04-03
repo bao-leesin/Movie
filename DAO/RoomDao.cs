@@ -26,7 +26,7 @@ namespace Movie.DAO
             return tab;
         }
 
-        public Room getChairsOfRoom(int idShowtime)
+        public int getChairsOfRoom(int idShowtime)
         {
             
             conn.Open();
@@ -42,19 +42,19 @@ namespace Movie.DAO
 
                 var tab = fillDataTable(cmd);
 
-                Room room = new Room();
-                room.ChairQuantity = Convert.ToInt32( tab.Rows[0]["chair_quantity"]);
+        
+                int ChairQuantity = Convert.ToInt32( tab.Rows[0]["chair_quantity"]);
 
                 transaction.Commit();
                 conn.Close();
-                return room;
+                return ChairQuantity;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 transaction.Rollback();
                 conn.Close();
-                return null;
+                return 0;
             }
 
         }

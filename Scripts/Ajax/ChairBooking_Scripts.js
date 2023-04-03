@@ -7,8 +7,8 @@ const total = document.getElementById("total");
 $.get('/Home/distributeChairTier',
     {},
     (jsonData) => {
-        jsonData.map(chairs => {
-            chairs.Chairs.map(chair => {
+        jsonData.forEach(chairs => {
+            chairs.Chairs.forEach(chair => {
                 const seat = Array.from(seats).find(seat => seat.id === chair)
                 seat.classList.add(chairs.Tier)
             })
@@ -26,14 +26,38 @@ function updateSelectedCount() {
 
     localStorage.setItem("selectedSeats", JSON.stringify(seatsIndex));
 
-    $.post(
-        "/Home/calculatePrice",
-        { selectedChairs: seatsIndex },
-        (total) => {
-            console.log(total)
+    /* Chuyển từ 1 mảng sang objet theo kiểu {tier: số ghế thuộc tier đó được chọn} */
+     function countChairByTier(chairTiers) {
+        const listTierOfSelectedChairs = chairTiers.reduce((accumulator, tier) => {
+    /* Lọc qua các phần tử, kiểm tra các ghế bằng id lấy từ Storage xem có class là tier đó không. Đếm rồi tạo cặp Key-Value */
+            let count = 0
+            seatsIndex.forEach(index => {
+                !!document.getElementById(index).classList.contains(value) && count++
+            })
+            return { ...accumulator, [value]: count }
+        }, {})
+
+        return listTierOfSelectedChairs
+    }
+
+    /* Req tới getChairTiers để lấy ra các tier của ghế, sau khi xử lý thành dạng object thì gửi lại về cho server để sv tính tổng giá và gửi lại */
+
+    $.get(
+        "/Home/getChairTiers",
+        {},
+        (listChairTier) => {
+            const listTierOfSelectedChairs = countChairByTier(listChairTier)
+            $.post(
+                "/Home/calculatePrice",
+                { listTierOfSelectedChairs },
+                (total) => {
+                    console.log(total)
+                    $(".showtime-info--chair_price").text(total)
+                }
+            )
         }
-    )
-    
+   )
+
 }
 
 
@@ -60,3 +84,7 @@ container.addEventListener("click", (e) => {
 });
 
 updateSelectedCount();
+
+//function nextToTicketBooking(idShowtime) {
+//     = `@Url.Action(bookTicket,Home,new { idShowtime=${idShowtime}, price = ${$()} })``
+//}

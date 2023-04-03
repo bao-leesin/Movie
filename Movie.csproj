@@ -188,6 +188,7 @@
     <Compile Include="Models\Film.cs" />
     <Compile Include="Models\Room.cs" />
     <Compile Include="Models\Showtime.cs" />
+    <Compile Include="Models\Ticket.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

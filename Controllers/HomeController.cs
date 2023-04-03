@@ -2,28 +2,29 @@
 using Movie.Models;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Web;
 using System.Web.Mvc;
 using System.Linq;
 using System.Dynamic;
-using Microsoft.Ajax.Utilities;
+using Newtonsoft.Json;
+using System.Net;
+using System.Web.Services.Description;
 using System.Web.Helpers;
+using Microsoft.Ajax.Utilities;
+using System.Security.Cryptography.X509Certificates;
+using Newtonsoft.Json.Linq;
 
 namespace Movie.Controllers
 {
 
     public class HomeController : Controller
     {
-
         public ViewResult Index()
         {
             var dao = new MovieDao();
             var films = dao.getAllMovie();
             return View(films);
         }
-        
+
         [HttpGet]
         public ViewResult bookShowTimeByIdFilm(int? idFilm)
         {
@@ -32,58 +33,18 @@ namespace Movie.Controllers
             var cities = dao.getCitiesByIdMovie(idFilm);
             var types = dao.getTypeCinemaByIdMovie(idFilm);
 
-            //List<BookingShowtime> every = new List<BookingShowtime>();
-            //every.Add(new BookingShowtime
-            //{
-            //    Id = 1,
-            //    movieId = 1,
-            //    City = "Hà Nội",
-            //    movieName = "Hê",
-            //    movieTheaterName = "CGv",
-            //    roomId = 1,
-            //    startTime = DateTime.Now,
-            //    Type = "2d"
-            //});
-            //every.Add(new BookingShowtime
-            //{
-            //    Id = 2,
-            //    movieId = 1,
-            //    City = "Hà Nội",
-            //    movieName = "Hê",
-            //    movieTheaterName = "CGv",
-            //    roomId = 1,
-            //    startTime = DateTime.Now,
-            //    Type = "2d"
-            //});
-            //every.Add(new BookingShowtime
-            //{
-            //    Id = 3,
-            //    movieId = 1,
-            //    City = "Hà Nội",
-            //    movieName = "Hê",
-            //    movieTheaterName = "CGv",
-            //    roomId = 1,
-            //    startTime = DateTime.Now,
-            //    Type = "2d"
-            //});
-
-            //ViewData["cities"] = every;
-            //ViewData["showDays"] = every;
-            //ViewData["types"] = every;
-
             ViewData["cities"] = cities;
             ViewData["showDays"] = showDays;
             ViewData["types"] = types;
 
             return View();
-        
+
         }
 
-        
-        public ActionResult filterShowTime(string cityName, DateTime showDayInput, string type,int IdFilm)
+        public ActionResult filterShowTime(string cityName, DateTime showDayInput, string type, int IdFilm)
         {
             List<BookingShowtime> showtimes = new ShowtimeDao().getBookingShowtime(IdFilm, cityName, showDayInput, type);
-            return PartialView("_ContainerCinema",showtimes);
+            return PartialView("_ContainerCinema", showtimes);
         }
 
         [HttpGet]
@@ -93,55 +54,23 @@ namespace Movie.Controllers
 
             var roomDao = new RoomDao();
             var chairDao = new ChairDao();
+            var showTimeDao = new ShowtimeDao();
 
-            Room room = roomDao.getChairsOfRoom(idShowtime);
-
-            int chairQuantity;
-
-            if (room != null)
-            {
-             chairQuantity = room.ChairQuantity;
-            }
-            else
-            {
-             chairQuantity = 0;
-            }
-            
+            int chairQuantity = roomDao.getChairsOfRoom(idShowtime);
 
             List<int> soldChairs = chairDao.getSoldChairList(idShowtime);
+            BookingShowtime ShowTimeInfo = showTimeDao.GetShowtimeDetail(idShowtime);
 
-
-            //int chairQuantity = 100;
-
-            //List<Chair> soldChairs = new List<Chair>();
-            //soldChairs.Add(new Chair() { Id = 1 });
-            //soldChairs.Add(new Chair() { Id = 11 });
-            //soldChairs.Add(new Chair() { Id = 31 });
-            //soldChairs.Add(new Chair() { Id = 41 });
-
-            //List<Chair> normalTierChairs = new List<Chair>();
-            //normalTierChairs.Add(new Chair() { Id = 1 });
-            //normalTierChairs.Add(new Chair() { Id = 2 });
-            //normalTierChairs.Add(new Chair() { Id = 3 });
-            //normalTierChairs.Add(new Chair() { Id = 4 });
-
-            //List<Chair> vipTierChairs = new List<Chair>();
-            //vipTierChairs.Add(new Chair() { Id = 13 });
-            //vipTierChairs.Add(new Chair() { Id = 14 });
-            //vipTierChairs.Add(new Chair() { Id = 15 });
-            //vipTierChairs.Add(new Chair() { Id = 16 });
-
-
+            /* Có thể đưa số hàng số cột vào CSDL*/
             int numberOfRow = 10;
             int numberOfColumn = chairQuantity / numberOfRow;
 
             char[] alphabet = new char[numberOfColumn];
 
-            for(int i = 65; i < 65 + numberOfColumn; i++)
+            for (int i = 65; i < 65 + numberOfColumn; i++)
             {
-                alphabet[i-65] = (char)i;
+                alphabet[i - 65] = (char)i;
             }
-
 
             ViewBag.Alphabet = alphabet;
             ViewBag.ChairQuantity = chairQuantity;
@@ -150,10 +79,20 @@ namespace Movie.Controllers
 
             dynamic mymodel = new ExpandoObject();
             mymodel.SoldChairs = soldChairs;
+            mymodel.ShowTimeInfo = ShowTimeInfo;
 
 
             return View(mymodel);
         }
+
+        [HttpGet]
+        public JsonResult getChairTiers()
+        {
+            var dao = new ChairDao();
+            var listChairTier = dao.getTierChair().ToArray();
+            return Json(listChairTier, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpGet]
         public JsonResult distributeChairTier()
         {
@@ -171,26 +110,35 @@ namespace Movie.Controllers
                     Chairs = dao.getChairsByTier(tier.ToString())
                 });
             }
-
-            return Json(chairGroup,JsonRequestBehavior.AllowGet);
+            return Json(chairGroup, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
-        public JsonResult calculatePrice(int[] selectedChairs)
+        public JsonResult calculatePrice(string jsonData) 
         {
-
             var chairDao = new ChairDao();
-            var chairPrices = chairDao.getChairPrice();
+            int total = 0;
 
+            var listSelectedChairByTier = JObject.Parse(jsonData);
 
+            foreach (JProperty property in listSelectedChairByTier.Properties()) { 
+                string tier = property.Name;
+                int quantity = (int)property.Value;
+                int chairPrice = chairDao.getChairPrice(tier) + ;
+                total += chairPrice*quantity;
+            }
 
-            return Json(chairPrices);
+            ViewData["Chair Price"] = total;
+
+            return Json(total);
         }
 
-        //[HttpPost]
-        //public ActionResult bookChairs()
-        //{
-        //    return View();
-        //}
+        public ActionResult bookTicket(string idShowtime)
+        {
+
+
+            return View();
+        }
+
     }
 }

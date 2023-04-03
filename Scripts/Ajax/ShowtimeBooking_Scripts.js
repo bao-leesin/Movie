@@ -21,14 +21,11 @@
 
 
     if (currentElements.length == 3) {
-        const $showtimeDiv = $('.container_cinema--list')
         $(document).ready(function () {
-            $(".container_cinema").load("/Home/filterShowTime", { cityName: currentCity, showDayInput: currentDay, type: currentType, IdFilm: currentIdFilm[1] });
+            $(".container_cinema").load("/Home/filterShowTime",
+                { cityName: currentCity, showDayInput: currentDay, type: currentType, IdFilm: currentIdFilm[1] });
         }
         )}
-
-  
-        
         
 });
 

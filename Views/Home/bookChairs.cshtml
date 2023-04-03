@@ -5,7 +5,7 @@
     ViewBag.Title = "bookChairs";
 
     var SoldChairs = Model.SoldChairs as List<int>;
-
+    var ShowTimeInfo = Model.ShowTimeInfo as Movie.Models.BookingShowtime;
 }
 
 @section scripts{
@@ -54,6 +54,16 @@
                     </div>
                 }
             }
+        </div>
+
+        <div class="showtime-info">
+            @*<input class="idShowTime" hidden value="@ShowTimeInfo"/>*@
+            @*@Html.ActionLink("QUAY LẠI")*@
+            <div class="showtime-info--image"> </div>
+            <div class="showtime-info--name"></div>
+            <div class="showtime-info--detail"></div>
+            <div class="showtime-info--chair_price"></div>
+            <button class="btn-success" @Url.Action("bookTicket",new {idShowtime = ShowTimeInfo.Id})></button>
         </div>
     }
 </div>

@@ -54,30 +54,25 @@ namespace Movie.DAO
             }
         }
 
-        public List<Chair> getChairPrice( ) {
+        public int getChairPrice( string tierChair ) {
             conn.Open();
             var transaction = conn.BeginTransaction();
 
             try
             {
-                OracleCommand cmd = new OracleCommand("SELECT tier_chair,base_price FROM chair_price order by 1", conn);
+                OracleCommand cmd = new OracleCommand("SELECT base_price FROM chair_price WHERE tier_chair = :paramTierChair", conn);
 
                 cmd.BindByName = true;
+                cmd.Parameters.Add("paramTierChair", tierChair);
 
                 var tab = fillDataTable(cmd);
 
-                List<Chair> tierList = (from DataRow dr in tab.Rows
-                                        select new Chair
-                                        {
-                                            Tier = dr["tier_chair"].ToString(),
-                                            OverSpending = Convert.ToInt32(dr["BASE_PRICE"])
-                                        }
-                                        ).ToList();
+                int price = Convert.ToInt32(tab.Rows[0]);
 
                 transaction.Commit();
                 conn.Close();
 
-                return tierList;
+                return price;
 
             }
             catch (Exception ex)
@@ -85,7 +80,7 @@ namespace Movie.DAO
                 ex.ToString();
                 transaction.Rollback();
                 conn.Close();
-                return null;
+                return 0;
             }
 
         }
