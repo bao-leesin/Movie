@@ -54,7 +54,7 @@ body {
     }
 
     .seat.sold {
-        background-color: rgb(128, 128, 128);
+        background-color: red;
     }
 
     .seat:nth-of-type(2) {

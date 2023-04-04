@@ -4,6 +4,7 @@ const count = document.getElementById("count");
 const total = document.getElementById("total");
 
 localStorage.clear();
+
 populateUI();
 
 function updateSelectedCount() {
@@ -42,9 +43,12 @@ function updateSelectedCount() {
                      tierWithChairs: JSON.stringify(listTierOfSelectedChairs),
                      jsonChairIds: JSON.stringify(seatsIndex)
                  },
-                (total) => {
-                    console.log(total)
-                    $(".showtime-info--chair_price").text(total)
+                 (total) => {
+                     const VND = new total.NumberFormat('vi-VN', {
+                        style: 'currency',
+                        currency: 'VND',
+                     });
+                     $(".chair_price").text(VND)
                 }
             )
         }
@@ -77,18 +81,22 @@ function populateUI() {
     )
 }
 
+function nextToChair(param) {
+    let firstId = Number(param)
+    return (firstId % 2 === 0) ? --firstId.toString() : ++firstId.toString()
+}
+
 container.addEventListener("click", (e) => {
     if (
         e.target.classList.contains("seat") &&
         !e.target.classList.contains("sold")
     ) {
+        if (e.target.classList.contains("SW")) {
+            const nextToElement = getElementById(nextToChair(e.target.id));
+            nextToElement.classList.toggle("selected");
+        }
         e.target.classList.toggle("selected");
         updateSelectedCount();
     }
 });
 
-/*updateSelectedCount();*/
-
-//function nextToTicketBooking(idShowtime) {
-//     = `@Url.Action(bookTicket,Home,new { idShowtime=${idShowtime}, price = ${$()} })``
-//}

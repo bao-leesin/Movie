@@ -1,0 +1,74 @@
+﻿* {
+    box-sizing: border-box;
+}
+
+body{
+    background-color: black;
+}
+
+span {
+    display: block;
+}
+
+.showtime-info {
+    display: flex;
+    justify-content: space-around;
+    color: white;
+    font-size: large;
+    max-height: 200px;
+    padding: 20px 0;
+    width: 100%;
+}
+    .showtime-info--image{
+    max-width:150px;
+}
+        .showtime-info--image img {
+    height: 100%;
+    object-fit: fill;
+    display: block;
+}
+
+.showtime-info--detail {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.showtime-info--place {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.showtime-info--price {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    
+}
+
+a.button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    text-decoration: none;
+    color:black
+
+  /*  -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button;*/
+}
+
+a i{
+    font-size: 1em;
+}
+
+.button.back-btn {
+    background-color: #ffd800;
+}
+
+.button.next-btn {
+    background-color: #ff6a00;
+}
+

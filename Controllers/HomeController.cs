@@ -59,13 +59,14 @@ namespace Movie.Controllers
             int chairQuantity = roomDao.getChairsOfRoom(idShowtime);
 
             List<int> soldChairs = chairDao.getSoldChairList(idShowtime);
-            BookingShowtime ShowTimeInfo = showTimeDao.GetShowtimeDetail(idShowtime);
+            BookingShowtime showTimeInfo = showTimeDao.GetShowtimeDetail(idShowtime);
 
             /* Có thể đưa số hàng số cột vào CSDL*/
             int numberOfRow = 10;
             int numberOfColumn = chairQuantity / numberOfRow;
 
             char[] alphabet = new char[numberOfColumn];
+
 
             for (int i = 65; i < 65 + numberOfColumn; i++)
             {
@@ -78,8 +79,8 @@ namespace Movie.Controllers
             ViewBag.NumberOfColumn = numberOfColumn;
 
             dynamic mymodel = new ExpandoObject();
-            mymodel.SoldChairs = soldChairs;
-            mymodel.ShowTimeInfo = ShowTimeInfo;
+            mymodel.soldChairs = soldChairs;
+            mymodel.showTimeInfo = showTimeInfo;
 
 
             return View(mymodel);
@@ -123,7 +124,6 @@ namespace Movie.Controllers
             JArray jArray = JArray.Parse(jsonChairIds);
             var selectedChairs = jArray.ToObject<List<int>>();
 
-
             foreach (JProperty property in listSelectedChairByTier.Properties()) { 
                 string tier = property.Name;
                 int quantity = (int)property.Value;
@@ -137,7 +137,8 @@ namespace Movie.Controllers
             return Json(total);
         }
 
-        public ActionResult bookTicket(BookingShowtime bookingShowtime)
+        [HttpPost]
+        public ActionResult bookTicket(int  idBookingShowtime)
         {
             var dao = new ShowtimeDao();
             int price = (int)ViewData["Chair Price"];
@@ -145,16 +146,18 @@ namespace Movie.Controllers
 
             var ticket = new Ticket
             {
-                MovieName = bookingShowtime.MovieName,
-                MovieTheaterName = bookingShowtime.MovieTheaterName,
-                StartTime = bookingShowtime.StartTime,
-                RoomName = bookingShowtime.RoomName,
+                idShowtime = idBookingShowtime,             
                 Price = price,
                 Username = Convert.ToString(Session["username"]),
                 IdChair = selectedChairs
             };
 
             return View(ticket);
+        }
+
+        public ActionResult test()
+        {
+            return View();
         }
 
     }

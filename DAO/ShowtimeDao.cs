@@ -36,8 +36,8 @@ namespace Movie.DAO
             try 
             {
                 OracleCommand cmd = new OracleCommand(
-                   "SELECT id_show_time,name_movie,name_movie_theater,name_room,base_price" +
-                   "to_char(start_time, 'HH24:MI:SS') as start_time  " +
+                   "SELECT id_show_time,name_movie,name_movie_theater,name_room," +
+                   "base_price,start_time" +
                    "FROM show_time st JOIN movie mv ON st.id_movie = mv.id_move " +
                    "JOIN room rm ON rm.id_room = st.id_room " +
                    "JOIN movie_theater mt ON mt.id_room = rm.id_room " +
