@@ -149,7 +149,8 @@ namespace Movie.Controllers
             List<int> result = dao.InsertTicket(ticket);
             if(result!=null)
             {
-            return View(ticket);
+                var newTicket = dao.SelectTicketByID(result[0]);
+            return View(newTicket);
             }
             return View();
         }

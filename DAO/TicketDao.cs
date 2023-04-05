@@ -51,7 +51,6 @@ namespace Movie.DAO
                     {
                         cmd.Parameters.Add("paramIdChair", chair);
                         cmd.ExecuteNonQuery();
-                        
 
                         OracleCommand cmd2 = new OracleCommand(
                             "SELECT id_ticket FROM ticket ORDER BY id_ticket desc fetch first 1 row only",
@@ -112,7 +111,7 @@ namespace Movie.DAO
                     MovieTheaterName = Convert.ToString(row["name_movie_theater"]),
                     StartTime = Convert.ToDateTime(row["start_time"]),
                     RoomName = Convert.ToString(row["name_room"]),
-                    Price = Convert.ToInt32(row["base_price"]),
+                    Price = Convert.ToInt32(row["price"]),
                     Type = Convert.ToString(row["type"]),
                     City = Convert.ToString(row["city"]),
                     ChairNumber= Convert.ToInt32(row["id_chair"]),
