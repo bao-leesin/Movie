@@ -36,11 +36,10 @@ namespace Movie.DAO
             try 
             {
                 OracleCommand cmd = new OracleCommand(
-                   "SELECT id_show_time,name_movie,name_movie_theater,name_room," +
-                   "base_price,start_time" +
-                   "FROM show_time st JOIN movie mv ON st.id_movie = mv.id_move " +
-                   "JOIN room rm ON rm.id_room = st.id_room " +
-                   "JOIN movie_theater mt ON mt.id_room = rm.id_room " +
+                   "SELECT id_show_time,name_movie,name_movie_theater,name_room,base_price,start_time,type " +
+                   "FROM show_time st JOIN movie mv ON st.id_movie = mv.id_movie " +
+                   "JOIN room rm ON rm.id_room = st.id_room  " +
+                   "JOIN movie_theater mt ON mt.id_movie_theater = rm.id_movie_theater " +
                    "WHERE id_show_time = :paramIdShowtime"
                     , conn);
 
@@ -49,6 +48,7 @@ namespace Movie.DAO
 
                  DataTable tab = fillDataTable(cmd);
                  var row = tab.Rows[0];
+
                  BookingShowtime showTimeDetail = new BookingShowtime()
                                     {
                                         Id = Convert.ToInt32(row["id_show_time"]),
@@ -56,7 +56,8 @@ namespace Movie.DAO
                                         MovieTheaterName = Convert.ToString(row["name_movie_theater"]),
                                         StartTime = Convert.ToDateTime(row["start_time"]),
                                         RoomName = Convert.ToString(row["name_room"]),
-                                        Price = Convert.ToInt32(row["base_price"])
+                                        Price = Convert.ToInt32(row["base_price"]),
+                                        Type = Convert.ToString(row["type"])
                                     };
 
                 transaction.Rollback();

@@ -61,10 +61,8 @@
     }
 </div>
 <div class="showtime-info">
-    <a class="button back-btn" @Url.Action("", new { })>
-        <i class="fa-arrow-left">
+    <a class="button back-btn" @Url.Action("bookChairs", new {idShowtime = ShowTimeInfo.Id})>
             <span> <strong> QUAY LẠI </strong> </span>
-        </i>
     </a>
 
     <div class="showtime-info--image">
@@ -83,12 +81,8 @@
         <span class="showtime-info--room_name"> Phòng chiếu: @ShowTimeInfo.RoomName </span>
     </div>
 
-    <div class="showtime-info--price"> <span class="chair-price"></span> </div>
-    <a class="button next-btn" @Url.Action("BookTicket", new {idBookingShotime=ShowTimeInfo.Id})>
-        <i class="fa-arrow-right" title="ĐẶT VÉ">
-            <span> <strong> ĐẶT VÉ </strong> </span>
-        </i>
-    </a>
+    <div class="showtime-info--price">Tổng: <span class="chair-price"></span></div>
+    @Html.ActionLink("ĐẶT VÉ", "bookTicket", new { idBookingShowtime = ShowTimeInfo.Id}, new {@class = "button next-btn" })
 </div>
 
 
