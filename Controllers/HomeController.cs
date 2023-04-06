@@ -3,20 +3,13 @@ using Movie.Models;
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
-using System.Linq;
 using System.Dynamic;
-using Newtonsoft.Json;
-using System.Net;
-using System.Web.Services.Description;
-using System.Web.Helpers;
-using Microsoft.Ajax.Utilities;
-using System.Security.Cryptography.X509Certificates;
 using Newtonsoft.Json.Linq;
-using System.Diagnostics;
+using Movie.Common;
 
 namespace Movie.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         public ViewResult Index()
         {
@@ -131,28 +124,35 @@ namespace Movie.Controllers
                 total += chairPrice*quantity;
             }
 
-            ViewData["Chair Price"] = total;
-            ViewData["Selected Chair"] = selectedChairs;
+            TempData["Chair Price"] = total;
+            TempData["Selected Chair"] = selectedChairs;
 
             return Json(total);
         }
 
-        [HttpPost]
-        public ActionResult bookTicket(int  idBookingShowtime)
+     
+        public ActionResult bookTicket(int idBookingShowtime)
         {
-            var dao = new ShowtimeDao();
-            int price = (int)ViewData["Chair Price"];
-            List<int> selectedChairs = ViewData["Selected Chair"] as List<int> ;
+            var dao = new TicketDao();
+            int price = (int)TempData["Chair Price"];
+            List<int> selectedChairs = TempData["Selected Chair"] as List<int> ;
+            UserLogin user = (UserLogin)Session[CommonContants.LOGIN_SESSION];
 
             var ticket = new Ticket
             {
                 idShowtime = idBookingShowtime,             
                 Price = price,
-                Username = Convert.ToString(Session["username"]),
-                IdChair = selectedChairs
+                Username = user.Username,
+                IdChair = selectedChairs,
             };
 
-            return View(ticket);
+            List<int> result = dao.InsertTicket(ticket);
+            if(result!=null)
+            {
+                var newTicket = dao.SelectTicketByID(result[0]);
+            return View(newTicket);
+            }
+            return View();
         }
 
         public ActionResult test()

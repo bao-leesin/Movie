@@ -44,11 +44,11 @@ function updateSelectedCount() {
                      jsonChairIds: JSON.stringify(seatsIndex)
                  },
                  (total) => {
-                     const VND = new total.NumberFormat('vi-VN', {
+                     const VND = total.toLocaleString('vi', {
                         style: 'currency',
                         currency: 'VND',
                      });
-                     $(".chair_price").text(VND)
+                     $(".chair-price").text(VND)
                 }
             )
         }
@@ -83,7 +83,7 @@ function populateUI() {
 
 function nextToChair(param) {
     let firstId = Number(param)
-    return (firstId % 2 === 0) ? --firstId.toString() : ++firstId.toString()
+    return (firstId % 2 === 0) ? --firstId : ++firstId
 }
 
 container.addEventListener("click", (e) => {
@@ -92,8 +92,9 @@ container.addEventListener("click", (e) => {
         !e.target.classList.contains("sold")
     ) {
         if (e.target.classList.contains("SW")) {
-            const nextToElement = getElementById(nextToChair(e.target.id));
-            nextToElement.classList.toggle("selected");
+            const secondId = nextToChair(e.target.id).toString()
+            const nextToElement = document.getElementById(secondId)
+            nextToElement.classList.toggle("selected")
         }
         e.target.classList.toggle("selected");
         updateSelectedCount();

@@ -10,5 +10,6 @@ namespace Movie.Models
         public string Username { get; set; }
         public List<int> IdChair { get; set; }
         public int idShowtime { get; set; }
+        public int ChairNumber { get; set; }    
     }
 }
