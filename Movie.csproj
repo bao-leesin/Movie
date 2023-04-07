@@ -164,8 +164,13 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Admin\Data\ICreate.cs" />
+    <Compile Include="Areas\Admin\Data\MovieDao.cs" />
+    <Compile Include="Areas\Admin\Data\RoomDao.cs" />
+    <Compile Include="Areas\Admin\Data\ShowtimeDao.cs" />
     <Compile Include="Common\CommonContants.cs" />
     <Compile Include="Common\CustomRoleProvider.cs" />
+    <Compile Include="Common\FilterConfig.cs" />
     <Compile Include="Common\Request\ShowtimeGetRequest.cs" />
     <Compile Include="Common\UserLogin.cs" />
     <Compile Include="Controllers\BaseController.cs" />
@@ -173,6 +178,8 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="DAO\AccountDao.cs" />
     <Compile Include="DAO\ChairDao.cs" />
+    <Compile Include="DAO\Dao.cs" />
+    <Compile Include="DAO\IRead.cs" />
     <Compile Include="DAO\MovieDao.cs" />
     <Compile Include="DAO\RoomDao.cs" />
     <Compile Include="DAO\ShowtimeDao.cs" />
@@ -223,12 +230,11 @@
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="favicon.ico" />
-    <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Scripts\Ajax\ChairBooking_Scripts.js" />
-    <Content Include="Scripts\Ajax\Login_Scripts.js" />
-    <Content Include="Scripts\Ajax\ShowtimeBooking_Scripts.js" />
+    <Content Include="Asset\js\ChairBooking_Scripts.js" />
+    <Content Include="Asset\js\Login_Scripts.js" />
+    <Content Include="Asset\js\ShowtimeBooking_Scripts.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -238,15 +244,9 @@
     <Content Include="Asset\css\.DS_Store" />
     <Content Include="Asset\css\bootstrap\.DS_Store" />
     <Content Include="Asset\css\bootstrap\mixins\.DS_Store" />
-    <Content Include="Asset\fonts\.DS_Store" />
     <Content Include="Asset\images\.DS_Store" />
     <Content Include="Areas\Admin\Views\web.config" />
     <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
-    <Content Include="fonts\FontAwesome.otf" />
-    <Content Include="fonts\fontawesome-webfont.woff2" />
-    <Content Include="fonts\fontawesome-webfont.woff" />
-    <Content Include="fonts\fontawesome-webfont.ttf" />
-    <Content Include="fonts\fontawesome-webfont.eot" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -283,7 +283,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Areas\Admin\Views\Default\" />
     <Folder Include="Areas\Admin\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>

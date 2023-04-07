@@ -11,7 +11,7 @@ namespace Movie.Areas.Admin.Controllers
     {
         // GET: Admin/Home
 
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "ADMIN")]
         public ActionResult Index()
         {
             return View();

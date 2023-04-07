@@ -9,21 +9,12 @@ using System.Web;
 
 namespace Movie.DAO
 {
-    public class ChairDao
+    public class ChairDao: Dao
     {
-        OracleConnection conn = null;
+      
         public ChairDao() {
-            conn = new OracleConnection(ConfigurationManager.ConnectionStrings["LOSDB"].ToString());
         }
-        public static DataTable fillDataTable(OracleCommand cmd)
-        {
-            OracleDataAdapter da = new OracleDataAdapter(cmd);
-            DataTable tab = new DataTable();
-            da.Fill(tab);
-
-            return tab;
-        }
-
+     
         public List<String> getTierChair( )
         {
             conn.Open();
@@ -142,8 +133,5 @@ namespace Movie.DAO
                 return null;
             }
         }
-
-
-
     }
 }

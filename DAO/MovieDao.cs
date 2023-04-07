@@ -9,13 +9,11 @@ using System.Web;
 
 namespace Movie.DAO
 {
-    public class MovieDao
+    public class MovieDao : Dao
     {
-        OracleConnection conn = null;
 
         public MovieDao()
         {
-            conn = new OracleConnection(ConfigurationManager.ConnectionStrings["LOSDB"].ToString());
         }
         public List<Film> getAllMovie()
         {

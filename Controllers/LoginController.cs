@@ -5,6 +5,7 @@ using System.Configuration;
 using System.Data;
 using System.Net;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace Movie.Controllers
 {
@@ -31,6 +32,7 @@ namespace Movie.Controllers
                     return View();
 
                 case (int)CommonContants.Role.ADMIN:
+                    FormsAuthentication.SetAuthCookie
                     Session[CommonContants.LOGIN_SESSION] = new UserLogin(request.Username, "Admin");
                     return RedirectToAction("Index", "Home", new { area = "Admin" });
 

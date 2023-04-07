@@ -8,23 +8,12 @@ using System.Data;
 
 namespace Movie.DAO
 {
-    public class TicketDao
+    public class TicketDao : Dao
     {
-        OracleConnection conn = null;
+     
 
-        public TicketDao()
-        {
-            conn = new OracleConnection(ConfigurationManager.ConnectionStrings["LOSDB"].ToString());
-        }
+        public TicketDao(){}
 
-
-        public static DataTable fillDataTable(OracleCommand cmd)
-        {
-            OracleDataAdapter da = new OracleDataAdapter(cmd);
-            DataTable tab = new DataTable();
-            da.Fill(tab);
-            return tab;
-        }
 
         public List<int> InsertTicket(Ticket ticket)
         {

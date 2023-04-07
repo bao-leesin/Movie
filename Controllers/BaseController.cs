@@ -1,4 +1,5 @@
 ﻿using Movie.Common;
+using Movie.DAO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +28,10 @@ namespace Movie.Controllers
             }
             base.OnActionExecuting(filterContext);
         }
+
+
+
+        
 
 
 

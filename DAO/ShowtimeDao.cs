@@ -9,25 +9,15 @@ using System.Linq;
 
 namespace Movie.DAO
 {
-    public class ShowtimeDao
+    public class ShowtimeDao : Dao
     {
 
-        OracleConnection conn = null;
 
         public ShowtimeDao()
         {
-            conn = new OracleConnection(ConfigurationManager.ConnectionStrings["LOSDB"].ToString());
         }
 
 
-        public static DataTable fillDataTable(OracleCommand cmd)
-        {
-            OracleDataAdapter da = new OracleDataAdapter(cmd);
-            DataTable tab = new DataTable();
-            da.Fill(tab);
-
-            return tab;
-        }
 
         public BookingShowtime GetShowtimeDetail(int idShowtime)
         {

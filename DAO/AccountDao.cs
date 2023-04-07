@@ -10,10 +10,10 @@ using System.Data;
 
 namespace Movie.DAO
 {
-    public class AccountDao
+    public class AccountDao : Dao
     {
         public AccountDao() {
-           
+            
         }
         public int LoginUser(string username, string password)
         {

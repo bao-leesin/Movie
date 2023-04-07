@@ -10,20 +10,10 @@ using System.Web;
 
 namespace Movie.DAO
 {
-    public class RoomDao
+    public class RoomDao : Dao
     {
-        OracleConnection conn = null;
         public RoomDao()
         {
-            conn = new OracleConnection(ConfigurationManager.ConnectionStrings["LOSDB"].ToString());
-        }
-        public static DataTable fillDataTable(OracleCommand cmd)
-        {
-            OracleDataAdapter da = new OracleDataAdapter(cmd);
-            DataTable tab = new DataTable();
-            da.Fill(tab);
-
-            return tab;
         }
 
         public int getChairsOfRoom(int idShowtime)
