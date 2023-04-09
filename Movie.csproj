@@ -165,6 +165,7 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Data\ICreate.cs" />
+    <Compile Include="Areas\Admin\Data\IRead.cs" />
     <Compile Include="Areas\Admin\Data\MovieDao.cs" />
     <Compile Include="Areas\Admin\Data\RoomDao.cs" />
     <Compile Include="Areas\Admin\Data\ShowtimeDao.cs" />

@@ -1,4 +1,5 @@
-﻿using Oracle.DataAccess.Client;
+﻿using Microsoft.Ajax.Utilities;
+using Oracle.DataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -8,7 +9,7 @@ using System.Web;
 
 namespace Movie.DAO
 {
-    public class Dao
+    public  class Dao
     {
        public OracleConnection conn;
         public Dao()
@@ -20,8 +21,15 @@ namespace Movie.DAO
         {
             OracleDataAdapter da = new OracleDataAdapter(cmd);
             DataTable tab = new DataTable();
+            
             da.Fill(tab);
+          
             return tab;
+        }
+
+        public virtual int Delete()
+        {
+            return 1;
         }
 
       

@@ -12,8 +12,7 @@ namespace Movie.DAO
     public class ChairDao: Dao
     {
       
-        public ChairDao() {
-        }
+        public ChairDao() {}
      
         public List<String> getTierChair( )
         {
@@ -23,7 +22,8 @@ namespace Movie.DAO
             try
             {
                 OracleCommand cmd = new OracleCommand("SELECT tier_chair FROM chair_price order by 1",conn);
-                
+
+
                 cmd.BindByName = true;
 
                 var tab = fillDataTable(cmd);
@@ -133,5 +133,7 @@ namespace Movie.DAO
                 return null;
             }
         }
+
+       
     }
 }

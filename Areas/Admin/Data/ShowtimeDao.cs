@@ -7,7 +7,7 @@ using System.Web;
 
 namespace Movie.Areas.Admin.Data
 {
-    public class ShowtimeDao : Dao, ICreate
+    public class ShowtimeDao : Dao
     {
         public ShowtimeDao()
         {

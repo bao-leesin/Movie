@@ -8,11 +8,21 @@ namespace Movie.Areas.Admin.Data
 {
     public class MovieDao : Dao, ICreate
     {
-        public bool Create()
+        public int Create(int a)
         {
-            conn.Open();
-            var transaction = conn.BeginTransaction();  
-            return true;
+            throw new NotImplementedException();
         }
+
+        public int Create()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override int Delete()
+        {
+            return 6;
+        }
+
+       
     }
 }

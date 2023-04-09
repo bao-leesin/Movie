@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Movie.Areas.Admin.Data
 {
-    internal interface ICreate
+    internal interface IRead
     {
-        int Create();
+        
     }
 }

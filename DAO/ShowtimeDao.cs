@@ -17,8 +17,6 @@ namespace Movie.DAO
         {
         }
 
-
-
         public BookingShowtime GetShowtimeDetail(int idShowtime)
         {
             conn.Open();
@@ -100,6 +98,20 @@ namespace Movie.DAO
                 Console.WriteLine(e.ToString());
                 return dateTimes;
             }
+        }
+
+        public List<BookingShowtime> getShowingDayByProcedure(int? idMovie)
+        {
+            conn.Open();
+            var transaction = conn.BeginTransaction();
+
+            var cmd = new OracleCommand("SPGetShowingMovieStarttime(:param_movie_id)");
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("param_movie_id", idMovie);
+            
+            DataTable tab = fillDataTable(cmd);
+
+            return  new List<BookingShowtime>();
         }
 
         public List<BookingShowtime> getCitiesByIdMovie(int? idMovie)
