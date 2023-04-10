@@ -25,7 +25,7 @@ namespace Movie.DAO
 
                 OracleCommand cmd = new OracleCommand(
                   "SELECT * FROM movie WHERE id_movie IN " +
-                  "( SELECT ID_MOVIE FROM show_time  WHERE START_TIME > SYSDATE)"
+                  "(SELECT ID_MOVIE FROM show_time  WHERE START_TIME > SYSDATE)"
                    , conn);
      
                 cmd.BindByName = true;

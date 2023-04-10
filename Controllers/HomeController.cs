@@ -6,10 +6,12 @@ using System.Web.Mvc;
 using System.Dynamic;
 using Newtonsoft.Json.Linq;
 using Movie.Common;
+using System.Web.Services.Description;
 
 namespace Movie.Controllers
 {
-    public class HomeController : BaseController
+    [Authorize(Roles = "CLIENT")]
+    public class HomeController : Controller
     {
         public ViewResult Index()
         {
@@ -31,7 +33,6 @@ namespace Movie.Controllers
             ViewData["types"] = types;
 
             return View();
-
         }
 
         public ActionResult filterShowTime(string cityName, DateTime showDayInput, string type, int IdFilm)

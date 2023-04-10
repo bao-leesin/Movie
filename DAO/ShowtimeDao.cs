@@ -16,9 +16,6 @@ namespace Movie.DAO
         public ShowtimeDao()
         {
         }
-
-
-
         public BookingShowtime GetShowtimeDetail(int idShowtime)
         {
             conn.Open();

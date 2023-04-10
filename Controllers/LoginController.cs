@@ -32,12 +32,13 @@ namespace Movie.Controllers
                     return View();
 
                 case (int)CommonContants.Role.ADMIN:
-                    FormsAuthentication.SetAuthCookie
-                    Session[CommonContants.LOGIN_SESSION] = new UserLogin(request.Username, "Admin");
+                    Session[CommonContants.LOGIN_SESSION] = new UserLogin(request.Username, "ADMIN");
+                    FormsAuthentication.SetAuthCookie(request.Username, true);
                     return RedirectToAction("Index", "Home", new { area = "Admin" });
 
                 case (int)CommonContants.Role.CLIENT:
-                    Session[CommonContants.LOGIN_SESSION] = new UserLogin(request.Username, "Client");
+                    Session[CommonContants.LOGIN_SESSION] = new UserLogin(request.Username, "CLIENT");
+                    FormsAuthentication.SetAuthCookie(request.Username, true);
                     return RedirectToAction("Index", "Home");
                  
             }

@@ -27,7 +27,11 @@ namespace Movie.Controllers
                     }));
             }
             base.OnActionExecuting(filterContext);
+
         }
+
+        
+        
 
 
 

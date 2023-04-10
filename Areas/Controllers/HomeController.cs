@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace Movie.Areas.Admin.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         // GET: Admin/Home
 
